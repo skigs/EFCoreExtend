@@ -1,0 +1,46 @@
+﻿{
+  "name": "Person",
+  "sqls": {
+    "AddPersonEachP": {
+      "sql": "insert into ##tname($$params.keys) values($$params.vals)",
+      //"type": "nonquery",
+      "policies": {
+        "eachParams": {
+          //"tag": "$$params", //默认为 $$params
+          //"isToSqlParam": true, //默认为 true
+          "ignoreParams": [ "id" ], //不需要进行遍历的SqlParameter
+          //"separator": "", //SqlParameter与SqlParameter之间的分隔符
+          //"kvSeparator": "", //key-value之间的分隔符
+          "kprefix": "[", //SqlParameter Name（key）的前缀
+          "ksuffix": "]", //SqlParameter Name（key）的后缀
+          //"vprefix": "", //SqlParameter Value的前缀
+          //"vsuffix": "", //SqlParameter Value的后缀
+          "isKVSplit": true, //是否key-value分开(keys 和 values在不同地方单独生成字串)
+          "kseparator": ",", //使用iskvSplit的时候，key-key之间的分隔符
+          "vseparator": "," //使用iskvSplit的时候，value-value之间的分隔符
+        }
+      }
+    },
+    "UpdatePersonEachP": {
+      "sql": "update ##tname set $$parameters where name=@name",
+      "type": "nonquery",
+      "policies": {
+        "eachParams": {
+          "tag": "$$parameters", //默认为 $$params
+          //"isToSqlParam": true, //默认为 true
+          "ignoreParams": [ "name" ], //不需要进行遍历的SqlParameter
+          "separator": ",", //SqlParameter与SqlParameter之间的分隔符
+          "kvSeparator": "=", //key-value之间的分隔符
+          //"kprefix": "[", //SqlParameter Name（key）的前缀
+          //"ksuffix": "]", //SqlParameter Name（key）的后缀
+          "vprefix": " ", //SqlParameter Value的前缀
+          "vsuffix": " " //SqlParameter Value的后缀
+        }
+      }
+    },
+    "DeletePersonEachP": {
+      "sql": "delete from ##tname where name=@name",
+      "type": "nonquery"
+    }
+  }
+}

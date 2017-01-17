@@ -1,0 +1,17 @@
+﻿{
+  "sqls": {
+    "AddPersonPolicyEx": {
+      "sql": "##insinto",
+      "type": "nonquery",
+      "policies": {
+        //策略扩展测试
+        "insinto": {
+        }
+      }
+    },
+    "DeletePersonPolicyEx": {
+      "sql": "delete from ##tname where name=@name",
+      "type": "nonquery"
+    }
+  }
+}

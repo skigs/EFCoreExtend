@@ -1,0 +1,18 @@
+﻿{
+  "name": "Address",
+  "sqls": {
+    "ListSec": {
+      "sql": "select id from ##tname where #{WhereSec}",
+      "type": "nonexecute",
+      "policies": {
+        "section": {
+          "sqlNames": [ "WhereSec" ]
+        }
+      }
+    },
+    "WhereSec": {
+      "sql": "id=@addrid",
+      "type": "nonexecute"
+    }
+  }
+}

@@ -1,0 +1,146 @@
+﻿{
+  "name": "Person",
+  "policies": {
+    ////二级查询缓存，作用于整个程序运行期间 / 或者跨进程分布式（Redis），如果同时配置了二级缓存和一级缓存默认时使用二级缓存(策略执行器的优先级有关)
+    //"l2cache": {
+    //  //"type"："",  //缓存的类型(Query默认为：query, Scalar默认为：scalar)
+    //  "expiry": { //注意如果没有设置expiry的date/span，那么缓存不会过期的
+    //    //"date": "2018-01-01", //指定缓存的过期日期
+    //    //"span": "00:00:03" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔）
+    //    //"isUpdateEach": true //是否每次获取缓存之后更新过期时间(这个属性 + span属性来进行模拟session访问更新过期时间)
+    //  }
+    //},
+
+    ////二级查询缓存清理策略
+    //"clear": {
+    //  "isAsync": true,//是否异步进行清理
+    //  "isSelfAll": true, //是否清理 所在表下 的所有缓存
+    //  "tables": [ "Address" ], //需要进行缓存清理的表的名称（一般用于清理 其他表下 的所有查询缓存）
+    //  "cacheTypes": ["query1"], //需要进行缓存清理的类型（用于清理 所在表下 的CacheType查询缓存）
+    //  "tableCacheTypes": { //需要进行缓存清理的类型(key为TableName，value为CacheType，一般用于清理 其他表下 的CacheType)
+    //    "Address": "query"
+    //  }
+    //}
+  },
+  "sqls": {
+    "GetListL2Cache": {
+      "sql": "select * from ##tname",
+      "type": "query",
+      "policies": {
+        "l2cache": { //二级查询缓存，不设置缓存过期时间(缓存不过期)
+        }
+      }
+    },
+    "GetListL2Cache1": {
+      "sql": "select * from ##tname",
+      "type": "query",
+      "policies": {
+        "l2cache": {
+          "type": "query1" //指定CacheType，默认为query
+        }
+      }
+    },
+    "GetListL2Cache2": {
+      "sql": "select * from ##tname where 2=2",
+      "type": "query",
+      "policies": {
+        "l2cache": {
+          "expiry": {
+            "date": "2018-01-01" //指定缓存的过期日期
+          }
+        }
+      }
+    },
+    "GetListL2Cache3": {
+      "sql": "select * from ##tname where 3=3",
+      "type": "query",
+      "policies": {
+        "l2cache": {
+          "expiry": {
+            "span": "00:00:03" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），为了方便测试因此这里指定了3秒
+          }
+        }
+      }
+    },
+    "CountL2Cache": {
+      "sql": "select count(*) from ##tname",
+      "type": "scalar",
+      "policies": {
+        "l2cache": {
+          "expiry": {
+            "span": "00:00:03", //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），为了方便测试因此这里指定了3秒
+            "isUpdateEach": true //是否每次获取缓存之后更新过期时间(这个属性 + span属性来进行模拟session访问更新过期时间)
+          }
+        }
+      }
+    },
+    "AddPersonL2Cache": {
+      "sql": "insert into ##tname(name, birthday, addrid) values('tom_t2cache', '2018-1-1', 123) ",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          //"isAsync": true,//是否异步进行清理
+          "isSelfAll": true //是否清理 所在表下 的所有缓存
+        }
+      }
+    },
+    "AddPersonL2Cache1": {
+      // output inserted.id
+      "sql": "insert into ##tname(name, birthday, addrid) output inserted.id values('tom_t2cache', '2018-1-1', 123) ",
+      //"type": "nonquery",
+      "policies": {
+        "clear": {
+          //"isAsync": true,//是否异步进行清理
+          "isSelfAll": true //是否清理 所在表下 的所有缓存
+        }
+      }
+    },
+    "UpdatePersonL2Cache": {
+      "sql": "update ##tname set birthday='2018-1-2' where name='tom_t2cache'",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          "cacheTypes": [ "query" ] //需要进行缓存清理的类型（用于清理 所在表下 的CacheType查询缓存）
+        }
+      }
+    },
+    "UpdatePersonL2Cache0": {
+      "sql": "update ##tname set birthday='2018-1-2' where name='tom_t2cache'",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          "cacheTypes": [ "query1" ] //需要进行缓存清理的类型（用于清理 所在表下 的CacheType查询缓存）
+        }
+      }
+    },
+    "UpdatePersonL2Cache1": {
+      "sql": "update ##tname set birthday='2018-1-2' where name='tom_t2cache'",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          "tables": [ "Address" ] //需要进行缓存清理的表的名称（一般用于清理 其他表下 的所有查询缓存）
+        }
+      }
+    },
+    "UpdatePersonL2Cache2": {
+      "sql": "update ##tname set birthday='2018-1-2' where name='tom_t2cache'",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          "tableCacheTypes": { //需要进行缓存清理的类型(key为TableName，value为CacheType，一般用于清理 其他表下 的CacheType)
+            "Address": "query"
+          }
+        }
+      }
+    },
+    "DeletePersonL2Cache": {
+      "sql": "delete from ##tname where name='tom_t2cache'",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          "isSelfAll": true //是否清理 所在表下 的所有缓存
+        }
+      }
+    }
+  }
+}

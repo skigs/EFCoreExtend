@@ -1,0 +1,72 @@
+﻿{
+  "name": "Person",
+  "sqls": {
+    "GetListPersonEachL": {
+      "sql": "select * from ##tname where id in(${idList}) or name in(${nameList})",
+      "type": "query",
+      "policies": {
+        //对SqlParameter的值类型为List的遍历
+        "eachList": {
+          "isAll": true, //是否所有List类型的都进行遍历
+          //"infos": {  //指定哪些SqlParameter需要进行遍历的配置信息(key为SqlParameter名称)
+          //}
+          "defInfo": { //默认的配置信息(如果 Infos属性中的key没有设置(为null)，那么会默认使用这个配置信息；如果isAll为true，而且没有指定infos，那么所有匹配的类型都使用这个配置)
+            //"tagPrefix": "${", //策略前缀标记符，默认为 ${
+            //"tagSuffix": "}", //策略后缀标记符，默认为 }
+            //"vprefix": "", //value的前缀
+            //"vsuffix": "", //value的后缀
+            //"isToSqlParam": true, //是否将遍历获取到的值(value)转换成SqlParameter（value => SqlParameter(@param, value) ），默认为true
+            "separator": "," //value-value之间的分隔符
+          }
+        }
+      }
+    },
+    "GetListPersonEachL1": {
+      "sql": "select * from ##tname where id in($idList$) or name in(${nameList}) or addrid=@addrid",
+      "type": "query",
+      "policies": {
+        "eachList": {
+          "infos": {
+            "idList": {
+              "tagPrefix": "$", //策略前缀标记符，默认为 ${
+              "tagSuffix": "$", //策略后缀标记符，默认为 }
+              "isToSqlParam": false, //是否将遍历获取到的值(value)转换成SqlParameter（value => SqlParameter(@param, value) ），默认为true
+              "separator": "," //值与值之间的分隔符
+            },
+            "nameList": {
+              "vprefix": "'", //value的前缀
+              "vsuffix": "'", //value的后缀
+              "isToSqlParam": false, //是否将遍历获取到的值(value)转换成SqlParameter（value => SqlParameter(@param, value) ），默认为true
+              "separator": "," //value-value之间的分隔符
+            }
+          }
+        }
+      }
+    },
+    "UpdatePersonEachL": {
+      "sql": "update ##tname set birthday=@birthday where name in(${nameList})",
+      "type": "nonquery",
+      "policies": {
+        "eachList": {
+          "defInfo": {
+            "vprefix": "'", //value的前缀
+            "vsuffix": "'", //value的后缀
+            "isToSqlParam": false, //是否将遍历获取到的值(value)转换成SqlParameter（value => SqlParameter(@param, value) ），默认为true
+            "separator": "," //value-value之间的分隔符
+          },
+          "infos": {
+            "nameList": null //赋值为null，那么使用默认的参数:defInfo
+          }
+        }
+      }
+    },
+    "AddPersonEachL": {
+      "sql": "insert into ##tname(name, birthday, addrid) values(@name, @birthday, @addrid) ",
+      "type": "nonquery"
+    },
+    "DeletePersonEachL": {
+      "sql": "delete from ##tname where name=@name",
+      "type": "nonquery"
+    }
+  }
+}

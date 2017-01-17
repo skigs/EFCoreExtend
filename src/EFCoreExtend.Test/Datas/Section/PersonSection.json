@@ -1,0 +1,68 @@
+﻿{
+  "name": "Person",
+  "sqls": {
+    "GetListSection": {
+      "sql": "#{ListSec}",
+      "type": "query",
+      "policies": {
+        //分部策略，以便将sql分部在不同的配置中（注意：分部策略是对sql的分部，可以在分部sql下再进行分部sql(子分部)，但是不会继承分部sql中的policies(策略对象)等的配置）
+        "section": {
+          //"tagPrefix": "#{", //策略前缀标记符，默认为 #{
+          //"tagSuffix": "}", //策略后缀标记符，默认为 }
+          "sqlNames": [ "ListSec" ] //指定sql的名称(同表下的SqlName)
+          //"tableSqlNames": { //指定其他表的sql名称(key为TableName，value为SqlName)
+          //}
+        }
+      }
+    },
+    "ListSec": {
+      "sql": "select * from ##tname where #WhereSec#",
+      "type": "nonexecute", //设置类型为非查询的
+      "policies": {
+        "section": {
+          "tagPrefix": "#",
+          "tagSuffix": "#",
+          "sqlNames": [ "WhereSec" ]
+        }
+      }
+    },
+    "WhereSec": {
+      "sql": " #{WhereSec1} or addrid in (#{Address.ListSec}) ",
+      "type": "nonexecute",
+      "policies": {
+        "section": {
+          "sqlNames": [ "WhereSec1" ],
+          "tableSqlNames": { //指定其他表的sql名称(key为TableName，value为SqlName)
+            "Address": "ListSec"
+          }
+        }
+      }
+    },
+    "WhereSec1": {
+      "sql": "name=@name",
+      "type": "nonexecute"
+    },
+    "UpdatePersonSection": {
+      "sql": "update ##tname set birthday=@birthday where #{WhereSec1}",
+      "type": "nonquery",
+      "policies": {
+        "section": {
+          "sqlNames": [ "WhereSec1" ] //指定sql的名称(同表下的SqlName)
+        }
+      }
+    },
+    "AddPersonSection": {
+      "sql": "insert into ##tname(name, birthday, addrid) values(@name, @birthday, @addrid) ",
+      "type": "nonquery"
+    },
+    "DeletePersonSection": {
+      "sql": "delete from ##tname where #{WhereSec1}",
+      "type": "nonquery",
+      "policies": {
+        "section": {
+          "sqlNames": [ "WhereSec1" ] //指定sql的名称(同表下的SqlName)
+        }
+      }
+    }
+  }
+}

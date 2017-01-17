@@ -1,0 +1,8 @@
+﻿{
+  "sqls": {
+    "LoadTest111": {
+      "sql": "select * from ##tname",
+      "type": "query"
+    }
+  }
+}

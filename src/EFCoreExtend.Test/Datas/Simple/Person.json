@@ -1,0 +1,47 @@
+﻿{
+  //"name" :  "Person", //设置表名，如果不指定name，那么默认文件名为表名
+  "policies": {
+    ////表名策略
+    //"tname": {
+    //  //"tag": "##tname"  //默认值为 ##tname
+    //  "prefix": "[", //前缀
+    //  "suffix": "]" //后缀
+    //}
+  },
+  "sqls": {
+    "GetList": {
+      //"sql": "select * from [Person] where name=@name",
+      "sql": "select * from ##tname where name=@name",
+      "type": "query" //可以不设置，如果设置了会在执行前进行类型检测，
+      //  notsure（默认，不确定），query（查询）, nonquery（非查询），scalar，nonexecute（不用于执行的sql，例如分部sql）
+    },
+    "GetPerson": {
+      "sql": "select * from ##tname where name=@name",
+      "type": "query"
+    },
+    "Count": {
+      "sql": "select count(*) from ##tname",
+      "type": "scalar"
+    },
+    "UpdatePerson": {
+      "sql": "update ##tname set birthday=@birthday, addrid=@addrid where name=@name",
+      "type": "nonquery"
+    },
+    "AddPerson": {
+      "sql": "insert into ##tname(name, birthday, addrid) values(@name, @birthday, @addrid) ",
+      "type": "nonquery"
+    },
+    "DeletePerson": {
+      "sql": "delete from ##tname where name=@name",
+      "type": "nonquery"
+    },
+    "ProcQuery": {
+      "sql": "exec TestQuery @name",
+      "type": "query"
+    },
+    "ProcUpdate": {
+      "sql": "exec TestUpdate @addrid,@name",
+      "type": "nonquery"
+    }
+  }
+}

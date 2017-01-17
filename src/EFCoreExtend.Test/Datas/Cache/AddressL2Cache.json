@@ -1,0 +1,35 @@
+﻿{
+  "name": "Address",
+  "sqls": {
+    "GetAddrListCache": {
+      "sql": "select * from ##tname where fullAddress='moon'",
+      "type": "query",
+      "policies": {
+        "l2cache": {
+        }
+      }
+    },
+    "AddAddrCache": {
+      "sql": "insert into ##tname(fullAddress, lat, lon) values('moon', 123.123, 345.645)",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          "isSelfAll": true
+        }
+      }
+    },
+    "AddAddrCacheNotClearCache": {
+      "sql": "insert into ##tname(fullAddress, lat, lon) values('moon', 123.123, 345.645)",
+      "type": "nonquery"
+    },
+    "DelAddrCache": {
+      "sql": "delete from ##tname where fullAddress='moon'",
+      "type": "nonquery",
+      "policies": {
+        "clear": {
+          "isSelfAll": true
+        }
+      }
+    }
+  }
+}

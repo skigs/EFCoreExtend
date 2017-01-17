@@ -1,0 +1,30 @@
+﻿{
+  "policies": {
+    //"tname": {
+    //  "tag": "##tableName", //更换TableName的标签，默认为 ##tname
+    //  "prefix": "[", //前缀
+    //  "suffix": "]" //后缀
+    //}
+  },
+  "sqls": {
+    "GetAddrList": {
+      "sql": "select * from ##tableName where fullAddress=@fullAddress",
+      "type": "query",
+      "policies": {
+        "tname": {
+          "tag": "##tableName", //更换TableName的标签
+          //"prefix": "[", //前缀
+          //"suffix": "]" //后缀
+        }
+      }
+    },
+    "AddAddr": {
+      "sql": "insert into ##tname(fullAddress, lat, lon) values(@fullAddress, @lat, @lon)",
+      "type": "nonquery"
+    },
+    "DelAddr": {
+      "sql": "delete from ##tname where fullAddress=@fullAddress",
+      "type": "nonquery"
+    }
+  }
+}

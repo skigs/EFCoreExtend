@@ -1,0 +1,80 @@
+﻿{
+  "name": "Person",
+  "sqls": {
+    "UpdatePersonEachD": {
+      "sql": "update ##tname set ${setdatas} where name=@name",
+      "type": "nonquery",
+      "policies": {
+        //对SqlParameter的值类型为Dictionary<string, object>的遍历
+        "eachDict": {
+          "isAll": true, //是否所有Dictionary<string, object>(IEnumerable<KeyValuePair<string, object>>)类型类型的都进行遍历
+          //"infos": {  //指定哪些SqlParameter需要进行遍历的配置信息(key为SqlParameter名称)
+          //}
+          "defInfo": { //默认的配置信息(如果 Infos属性中的key没有设置(为null)，那么会默认使用这个配置信息；如果isAll为true，而且没有指定infos，那么所有匹配的类型都使用这个配置)
+            //"tagPrefix": "${", //策略前缀标记符，默认为 ${
+            //"tagSuffix": "}", //策略后缀标记符，默认为 }
+            //"isToSqlParam": true, //是否将遍历获取到的值(value)转换成SqlParameter（value => SqlParameter(@param, value) ），默认为true
+            "separator": ",", //pair-pair之间的分隔符
+            //"kprefix": "[", //key的前缀
+            //"ksuffix": "]", //key的后缀
+            //"vprefix": "", //value的前缀
+            //"vsuffix": "", //value的后缀
+            "kvSeparator": "=" //key-value之间的分隔符
+            //"iskvSplit": true, //是否key-value分开(keys 和 values在不同地方单独生成字串)
+            //"kseparator": "", //使用iskvSplit的时候，key-key之间的分隔符
+            //"vseparator": "", //使用iskvSplit的时候，value-value之间的分隔符
+            //"ignoreKeys": [] //不需要进行操作的key
+          }
+        }
+      }
+    },
+    "AddPersonEachD": {
+      "sql": "insert into ##tname($datas.keys$) values($datas.vals$)",
+      "type": "nonquery",
+      "policies": {
+        "eachDict": {
+          "defInfo": {
+            "tagPrefix": "$", //策略前缀标记符，默认为 ${
+            "tagSuffix": "$", //策略后缀标记符，默认为 }
+            //"kprefix": "[", //key的前缀
+            //"ksuffix": "]", //key的后缀
+            "iskvSplit": true, //是否key-value分开(keys 和 values在不同地方单独生成字串)
+            "kseparator": ",", //使用iskvSplit的时候，key-key之间的分隔符
+            "vseparator": ",", //使用iskvSplit的时候，value-value之间的分隔符
+            "ignoreKeys": [ "id" ] //不需要进行操作的key
+          },
+          "infos": { //指定哪些SqlParameter需要进行遍历的配置信息(key为SqlParameter名称)
+            "datas": null
+          }
+        }
+      }
+    },
+    "UpdatePersonEachD1": {
+      "sql": "update ##tname set ${setdatas} where ${wheredatas}",
+      "type": "nonquery",
+      "policies": {
+        "eachDict": {
+          "infos": { //指定哪些SqlParameter需要进行遍历的配置信息(key为SqlParameter名称)
+            "setdatas": {
+              "isToSqlParam": false, //是否将遍历获取到的值(value)转换成SqlParameter（value => SqlParameter(@param, value) ），默认为true
+              "separator": ",", //pair-pair之间的分隔符
+              //"kprefix": "[", //key的前缀
+              //"ksuffix": "]", //key的后缀
+              "vprefix": "'", //value的前缀
+              "vsuffix": "'", //value的后缀
+              "kvSeparator": "=" //key-value之间的分隔符
+            },
+            "wheredatas": {
+              "separator": " or ", //pair-pair之间的分隔符
+              "kvSeparator": "=" //key-value之间的分隔符
+            }
+          }
+        }
+      }
+    },
+    "DeletePersonEachD": {
+      "sql": "delete from ##tname where name=@name",
+      "type": "nonquery"
+    }
+  }
+}

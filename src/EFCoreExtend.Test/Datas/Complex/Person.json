@@ -1,0 +1,71 @@
+﻿{
+  "policies": { //设置表下默认的策略对象
+    "l2cache": {
+      "expiry": {
+        "span": "00:00:03" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），为了方便测试因此这里指定了3秒
+      }
+    },
+    "clear": {
+      "isSelfAll": true //是否清理 所在表下 的所有缓存
+    },
+    "section": {
+      "sqlnames": [ "whereCpx" ]
+    }
+  },
+  "sqls": {
+    "GetListPersonCpx": {
+      "sql": "select ${cols} from ##tname where #{whereCpx}",
+      "type": "query",
+      "policies": {
+        //对SqlParameter的值类型为List的遍历
+        "eachList": {
+          "isAll": true, //是否所有List类型的都进行遍历
+          "defInfo": {
+            "separator": ",", //value-value之间的分隔符
+            "isToSqlParam": false
+            //"vprefix": "\"",
+            //"vsuffix": "\""
+          }
+        }
+      }
+    },
+    "AddPersonCpx": {
+      "sql": "insert into ##tname($$params.keys) values($$params.vals)",
+      "type": "nonquery",
+      "policies": {
+        "eachParams": {
+          "ignoreParams": [ "id" ], //不需要进行遍历的SqlParameter
+          //"kprefix": "\"", //SqlParameter Name（key）的前缀
+          //"ksuffix": "\"", //SqlParameter Name（key）的后缀
+          "isKVSplit": true, //是否key-value分开(keys 和 values在不同地方单独生成字串)
+          "kseparator": ",", //使用iskvSplit的时候，key-key之间的分隔符
+          "vseparator": "," //使用iskvSplit的时候，value-value之间的分隔符
+        }
+      }
+    },
+    "UpdatePersonCpx": {
+      "sql": "update ##tname set $$params where #{whereCpx}",
+      "type": "nonquery",
+      "policies": {
+        "eachParams": {
+          "ignoreparams": [ "name", "id" ],
+          "separator": ",", //SqlParameter与SqlParameter之间的分隔符
+          "kvSeparator": "=", //key-value之间的分隔符
+          //"kprefix": "\"", //SqlParameter Name（key）的前缀
+          //"ksuffix": "\"" //SqlParameter Name（key）的后缀
+        }
+      }
+    },
+    "DeletePersonCpx": {
+      "sql": "delete from ##tname where #{whereCpx}",
+      "type": "nonquery"
+    },
+    "whereCpx": {
+      "sql": "name=@name",
+      "type": "nonexecute",
+      "policies": {
+        "section": {} //因为Table设置了whereCpx为section，这里覆盖Table的section策略，否则死循环了
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+﻿{
+  "name": "Person",
+  //"policies": {
+  //  //一级查询缓存，作用于SqlConfigExecutor对象
+  //  "l1cache": {
+  //    //"isUse": true  //所有策略类型都带有的属性，判断是否使用策略，该值为null或者为true那么为使用策略
+  //  }
+  //},
+  "sqls": {
+    "GetListL1Cache": {
+      "sql": "select * from ##tname where name=@name",
+      "type": "query",
+      "policies": {
+        "l1cache": {}
+      }
+    },
+    "CountL1Cache": {
+      "sql": "select count(*) from ##tname where name=@name",
+      "type": "scalar",
+      "policies": {
+        "l1cache": {}
+      }
+    },
+    "AddPersonL1Cache": {
+      "sql": "insert into ##tname(name, birthday, addrid) values(@name, '2018-1-1', 123) ",
+      "type": "nonquery"
+    },
+    "DelPersonL1Cache": {
+      "sql": "delete from ##tname where name=@name",
+      "type": "nonquery"
+    }
+  }
+}
