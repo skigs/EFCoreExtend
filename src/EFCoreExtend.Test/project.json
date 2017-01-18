@@ -6,7 +6,7 @@
   },
 
   "dependencies": {
-    "EFCoreExtend": "1.0.0",
+    "EFCoreExtend": "1.0.21",
     "EFCoreExtend.Redis": "1.0.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",

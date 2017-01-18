@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C61ED52F-2333-4222-9830-BBD8B8B8416D}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EFCoreExtend", "src\EFCoreExtend\EFCoreExtend.xproj", "{0182BE90-68DA-41DB-8B25-AC98EB33EE9C}"

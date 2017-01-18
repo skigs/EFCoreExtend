@@ -3,20 +3,22 @@
   "description": "Entity Framework Core extension library.",
   "packOptions": {
     "tags": [
-      "Entity Framework Core Extend Redis",
       "entity-framework-core-extend-redis",
+      "EntityFrameworkCoreExtendRedis",
       "EFCoreExtend.Redis"
     ]
   },
   "dependencies": {
-    "EFCoreExtend": "1.0.0",
+    "EFCoreExtend": "1.0.21",
     "NETStandard.Library": "1.6.1-*",
     "StackExchange.Redis": "1.1.608-*"
   },
-
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
+  },
+  "buildOptions": {
+    "xmlDoc": true
   }
 }
