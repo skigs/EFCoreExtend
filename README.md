@@ -3,8 +3,11 @@ Entity Framework Core extension library
 
 <h4>Nuget Download</h4>
 <pre><code>PM&gt; Install-Package EFCoreExtend</code></pre>
-QueryCache use Redis£º
+QueryCache use Redis
 <pre><code>PM&gt; Install-Package EFCoreExtend.Redis</code></pre>
+
+blog：http://www.cnblogs.com/skig/p/EFCoreExtend.html
+</br>
 
 <h3>Features</h3>
 <h5>Execute Sql</h5>
@@ -100,6 +103,110 @@ clear cache
             //clears the cache for the specified table: Person
             EFHelper.Services.Cache.Remove&lt;Person&gt;();
 </code></pre>
+
+<br/>
+<h5>Sql config to lua file</h5>
+config file: Person.lua
+<pre><code>
+cfg.table("Person", function(tb)
+
+	tb.sqls.Get = function ()
+		--return "select * from Person where name=@name";
+		--return "select * from " .. tb.name .." where name=@name";	
+		return "select * from " .. tb.name .." where name=@name", "query";
+	end
+
+	tb.sqls.Count = function ()
+		return "select count(*) from Person where name=@name", "scalar";
+	end
+
+	tb.sqls.Add = function ()
+		return "insert into Person(name, birthday, addrid) values(@name, @birthday, @addrid)", "nonquery";
+	end
+
+	tb.sqls.Update = function ()
+		return "update Person set addrid=@addrid where name=@name"
+	end
+
+	tb.sqls.Delete = function ()
+		return "delete from Person where name=@name"
+	end
+
+end);
+</code></pre>
+
+Load config files:
+<pre><code>
+EFHelper.ServiceBuilder.AddLuaSqlDefault().BuildServices(); //add lua services
+var luasql = EFHelper.Services.GetLuaSqlMgr();	//get lua service
+luasql.LoadFile(Directory.GetCurrentDirectory() + "/Datas/Lua/Person.lua");	//load lua config file
+//luasql.LoadDirectory(Directory.GetCurrentDirectory() + "/Datas/Lua/Cache");	// load files
+</code></pre>
+
+use:
+<pre><code>
+public class LuaPersonBLL
+{
+    string name = "skig";
+    protected readonly LuaDBConfigTable config;
+    public LuaPersonBLL(DbContext db)
+    {
+        config = db.GetLuaConfigTable&lt;Person&gt;();
+    }
+
+    public IReadOnlyList&lt;Person&gt; Get()
+    {
+        return config.GetLuaExecutor().QueryUseModel&lt;Person&gt;(new
+        {
+            name = name,
+        });
+    }
+
+    public int Count()
+    {
+        return config.GetLuaExecutor().ScalarUseModel&lt;int&gt;(new
+        {
+            name = name,
+        });
+    }
+
+    public int Add()
+    {
+        return config.GetLuaExecutor().NonQueryUseModel(new Person
+        {
+            name = name,
+            addrid = 123,
+            birthday = DateTime.Now,
+        }, "id");
+    }
+
+    public int Update(int? addrid = 345)
+    {
+        return config.GetLuaExecutor().NonQueryUseModel(new
+        {
+            name = name,
+            addrid = addrid,
+        });
+    }
+
+    public int Delete()
+    {
+        return config.GetLuaExecutor().NonQueryUseModel(new
+        {
+            name = name
+        });
+    }
+
+}
+</code></pre>
+
+
+
+
+
+
+
+
 
 <br/>
 <h5>Sql config to json file</h5>

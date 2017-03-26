@@ -11,12 +11,14 @@ namespace EFCoreExtend.Sql.Default
 {
     public class SqlParamConverter : ISqlParamConverter
     {
-        public IDataParameter[] DictionaryToDBParams(DbContext db, IReadOnlyDictionary<string, object> dictParams)
+        public IDataParameter[] DictionaryToDBParams(DbContext db, 
+            IEnumerable<KeyValuePair<string, object>> dictParams, int? paramsCount)
         {
             IDataParameter[] sqlParams = null;
-            if (dictParams != null && dictParams.Count > 0)
+            if (paramsCount > 0)
             {
-                sqlParams = new IDataParameter[dictParams.Count];
+                //不使用Count()进行获取个数，而是参数传递count，然后扩展方法进行相应的扩展，从而提高性能
+                sqlParams = new IDataParameter[paramsCount.Value];
                 int i = 0;
                 using (var command = db.Database.GetDbConnection().CreateCommand())
                 {

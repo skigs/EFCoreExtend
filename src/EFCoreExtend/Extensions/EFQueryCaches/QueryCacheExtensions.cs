@@ -140,7 +140,7 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCache<TEntity, T>(this DbContext db, string sql,
-            IDataParameter[] sqlParams, IReadOnlyCollection<string> ignoreProptsForRtnType,
+            IDataParameter[] sqlParams, IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -160,7 +160,7 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCache<T>(this DbContext db, Type tableEntityType, string sql,
-            IDataParameter[] sqlParams, IReadOnlyCollection<string> ignoreProptsForRtnType,
+            IDataParameter[] sqlParams, IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -180,7 +180,7 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCache<T>(this DbContext db, string tableName, string sql,
-            IDataParameter[] sqlParams, IReadOnlyCollection<string> ignoreProptsForRtnType,
+            IDataParameter[] sqlParams, IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -200,7 +200,7 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCacheUseDict<TEntity, T>(this DbContext db, string sql,
-            IReadOnlyDictionary<string, object> sqlParams, IReadOnlyCollection<string> ignoreProptsForRtnType,
+            IDictionary<string, object> sqlParams, IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -220,7 +220,7 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCacheUseDict<T>(this DbContext db, Type tableEntityType, string sql,
-            IReadOnlyDictionary<string, object> sqlParams, IReadOnlyCollection<string> ignoreProptsForRtnType,
+            IDictionary<string, object> sqlParams, IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -240,7 +240,7 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCacheUseDict<T>(this DbContext db, string tableName, string sql,
-            IReadOnlyDictionary<string, object> sqlParams, IReadOnlyCollection<string> ignoreProptsForRtnType,
+            IDictionary<string, object> sqlParams, IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -262,8 +262,8 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCacheUseModel<TEntity, T>(this DbContext db, string sql,
-            object sqlParamModel, IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<string> ignoreProptsForRtnType,
+            object sqlParamModel, IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -284,8 +284,8 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCacheUseModel<T>(this DbContext db, Type tableEntityType, string sql,
-            object sqlParamModel, IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<string> ignoreProptsForRtnType,
+            object sqlParamModel, IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -306,8 +306,8 @@ namespace EFCoreExtend
         /// <param name="expiryPolicy">缓存过期策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryCacheUseModel<T>(this DbContext db, string tableName, string sql,
-            object sqlParamModel, IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<string> ignoreProptsForRtnType,
+            object sqlParamModel, IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForRtnType,
             IQueryCacheExpiryPolicy expiryPolicy)
             where T : new()
         {
@@ -324,7 +324,7 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="sqlParams">sql的参数</param>
         public static void QueryCacheRemove<TEntity>(this DbContext db, string sql,
-            IReadOnlyCollection<IDataParameter> sqlParams)
+            ICollection<IDataParameter> sqlParams)
         {
             EFHelper.Services.Cache.Remove(typeof(TEntity), _cacheType, sql, sqlParams);
         }
@@ -337,7 +337,7 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="sqlParams">sql的参数</param>
         public static void QueryCacheRemove(this DbContext db, string tableName, string sql,
-            IReadOnlyCollection<IDataParameter> sqlParams)
+            ICollection<IDataParameter> sqlParams)
         {
             EFHelper.Services.Cache.Remove(tableName, _cacheType, sql, sqlParams);
         }
@@ -350,7 +350,7 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="sqlParams">sql的参数</param>
         public static void QueryCacheRemove(this DbContext db, Type tableEntityType, string sql,
-            IReadOnlyCollection<IDataParameter> sqlParams)
+            ICollection<IDataParameter> sqlParams)
         {
             EFHelper.Services.Cache.Remove(tableEntityType, _cacheType, sql, sqlParams);
         }
@@ -364,7 +364,7 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="sqlParams">sql的参数</param>
         public static void QueryCacheRemoveUseDict(this DbContext db, Type tableEntityType, string sql,
-            IReadOnlyDictionary<string, object> sqlParams)
+            IDictionary<string, object> sqlParams)
         {
             EFHelper.Services.Cache.RemoveUseDict(tableEntityType, _cacheType, sql, sqlParams);
         }
@@ -377,7 +377,7 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="sqlParams">sql的参数</param>
         public static void QueryCacheRemoveUseDict<TEntity>(this DbContext db, string sql,
-            IReadOnlyDictionary<string, object> sqlParams)
+            IDictionary<string, object> sqlParams)
         {
             EFHelper.Services.Cache.RemoveUseDict(typeof(TEntity), _cacheType, sql, sqlParams);
         }
@@ -390,7 +390,7 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="sqlParams">sql的参数</param>
         public static void QueryCacheRemoveUseDict(this DbContext db, string tableName, string sql,
-            IReadOnlyDictionary<string, object> sqlParams)
+            IDictionary<string, object> sqlParams)
         {
             EFHelper.Services.Cache.RemoveUseDict(tableName, _cacheType, sql, sqlParams);
         }
@@ -405,7 +405,7 @@ namespace EFCoreExtend
         /// <param name="sqlParamModel">sql的参数模型对象</param>
         /// <param name="ignoreProptsForParamModel">sql的参数模型对象中需要忽略的属性名</param>
         public static void QueryCacheRemoveUseModel<TEntity>(this DbContext db, string sql,
-            object sqlParamModel, IReadOnlyCollection<string> ignoreProptsForParamModel)
+            object sqlParamModel, IEnumerable<string> ignoreProptsForParamModel)
         {
             EFHelper.Services.Cache.RemoveUseModel(typeof(TEntity), _cacheType, sql, sqlParamModel, ignoreProptsForParamModel);
         }
@@ -419,7 +419,7 @@ namespace EFCoreExtend
         /// <param name="sqlParamModel">sql的参数模型对象</param>
         /// <param name="ignoreProptsForParamModel">sql的参数模型对象中需要忽略的属性名</param>
         public static void QueryCacheRemoveUseModel(this DbContext db, Type tableEntityType, string sql,
-            object sqlParamModel, IReadOnlyCollection<string> ignoreProptsForParamModel)
+            object sqlParamModel, IEnumerable<string> ignoreProptsForParamModel)
         {
             EFHelper.Services.Cache.RemoveUseModel(tableEntityType, _cacheType, sql, sqlParamModel, ignoreProptsForParamModel);
         }
@@ -433,7 +433,7 @@ namespace EFCoreExtend
         /// <param name="sqlParamModel">sql的参数模型对象</param>
         /// <param name="ignoreProptsForParamModel">sql的参数模型对象中需要忽略的属性名</param>
         public static void QueryCacheRemoveUseModel(this DbContext db, string tableName, string sql,
-            object sqlParamModel, IReadOnlyCollection<string> ignoreProptsForParamModel)
+            object sqlParamModel, IEnumerable<string> ignoreProptsForParamModel)
         {
             EFHelper.Services.Cache.RemoveUseModel(tableName, _cacheType, sql, sqlParamModel, ignoreProptsForParamModel);
         }

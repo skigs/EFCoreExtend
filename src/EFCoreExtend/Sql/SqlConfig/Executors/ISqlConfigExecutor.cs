@@ -14,12 +14,12 @@ namespace EFCoreExtend.Sql.SqlConfig.Executors
         IConfigSqlInfo SqlInfo { get; }
 
         IReadOnlyList<T> Query<T>(IDataParameter[] parameters = null,
-            IReadOnlyCollection<string> ignoreProptsForRtnType = null, 
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies = null) where T : new();
+            IEnumerable<string> ignoreProptsForRtnType = null, 
+            IDictionary<string, ISqlConfigPolicy> policies = null) where T : new();
 
-        object Scalar(IDataParameter[] parameters = null, IReadOnlyDictionary<string, ISqlConfigPolicy> policies = null);
+        object Scalar(IDataParameter[] parameters = null, IDictionary<string, ISqlConfigPolicy> policies = null);
 
-        int NonQuery(IDataParameter[] parameters = null, IReadOnlyDictionary<string, ISqlConfigPolicy> policies = null);
+        int NonQuery(IDataParameter[] parameters = null, IDictionary<string, ISqlConfigPolicy> policies = null);
 
     }
 }

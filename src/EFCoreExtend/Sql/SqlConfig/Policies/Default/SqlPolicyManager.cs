@@ -101,26 +101,24 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Default
         /// <summary>
         /// 执行相关的策略执行器
         /// </summary>
-        public void InvokeExecutors<T>(IReadOnlyDictionary<string, ISqlConfigPolicy> policies, T info)
-            where T : IPolicyExecutorInfoBase
+        public void InvokeExecutors(IDictionary<string, ISqlConfigPolicy> policies,
+            IPolicyExecutorInfo info, Type executorInfoBaseType)
         {
-            var policyInfo = (IPolicyExecutorInfo)info;
-            //if (info is ISqlInitPolicyExecutorInfo)   //不使用is，因为类型T可能都继承了所有类型而造成都转换成功
-            if(typeof(T) == _tISqlInitPolicyExecutorInfo)
+            if(executorInfoBaseType == _tISqlInitPolicyExecutorInfo)
             {
                 //在策略执行之前进行相应的初始化操作（优先级排序）
                 _sqlInitPolicyExecutorsOrderInit.Invoke(-1);
-                DoSqlInitPolicyExecutors(policies, policyInfo);
+                DoSqlInitPolicyExecutors(policies, info);
             }
-            else if (typeof(T) == _tISqlPreExecutePolicyExecutorInfo)
+            else if (executorInfoBaseType == _tISqlPreExecutePolicyExecutorInfo)
             {
                 _sqlPreExecutePolicyExecutorsOrderInit.Invoke(-1);
-                DoSqlPreExecutePolicyExecutors(policies, policyInfo);
+                DoSqlPreExecutePolicyExecutors(policies, info);
             }
-            else if (typeof(T) == _tISqlExecutePolicyExecutorInfo)
+            else if (executorInfoBaseType == _tISqlExecutePolicyExecutorInfo)
             {
                 _sqlExecutePolicyExecutorsOrderInit.Invoke(-1);
-                DoSqlExecutePolicyExecutors(policies, policyInfo);
+                DoSqlExecutePolicyExecutors(policies, info);
             }
             else
             {
@@ -134,7 +132,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Default
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        protected void DoSqlInitPolicyExecutors(IReadOnlyDictionary<string, ISqlConfigPolicy> policies,
+        protected void DoSqlInitPolicyExecutors(IDictionary<string, ISqlConfigPolicy> policies,
             IPolicyExecutorInfo info)
         {
             var pinfo = (ISqlInitPolicyExecutorInfo)info;
@@ -175,7 +173,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Default
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        protected void DoSqlPreExecutePolicyExecutors(IReadOnlyDictionary<string, ISqlConfigPolicy> policies,
+        protected void DoSqlPreExecutePolicyExecutors(IDictionary<string, ISqlConfigPolicy> policies,
             IPolicyExecutorInfo info)
         {
             var pinfo = (ISqlPreExecutePolicyExecutorInfo)info;
@@ -219,7 +217,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Default
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        protected void DoSqlExecutePolicyExecutors(IReadOnlyDictionary<string, ISqlConfigPolicy> policies,
+        protected void DoSqlExecutePolicyExecutors(IDictionary<string, ISqlConfigPolicy> policies,
             IPolicyExecutorInfo info)
         {
             var pinfo = (ISqlExecutePolicyExecutorInfo)info;

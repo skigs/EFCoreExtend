@@ -24,12 +24,13 @@ namespace EFCoreExtend.EFCache.Default
             _cacheContainerMgr = cacheContainerMgr;
         }
 
-        public TRtn Cache<TRtn>(string tableName, string cacheType, string cacheKey, Func<TRtn> toDBGet, IQueryCacheExpiryPolicy expiryPolicy)
+        public TRtn Cache<TRtn>(string tableName, string cacheType, string cacheKey, Func<TRtn> toDBGet, 
+            IQueryCacheExpiryPolicy expiryPolicy, Type rtnType = null)
         {
             IQueryCache cache;
             if (CacheContainerMgr.TryGetIfUseCache(tableName, out cache))
             {
-                return cache.Cache(cacheType, cacheKey, toDBGet, expiryPolicy);
+                return cache.Cache(cacheType, cacheKey, toDBGet, expiryPolicy, rtnType);
             }
             else
             {

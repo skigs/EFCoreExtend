@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EFCoreExtend
 {
-    public class DBConfigTable : IDisposable
+    public class DBConfigTable : IDBConfigTable, IDisposable
     {
         ISqlConfig _config;
         IConfigTableInfo _tableInfo;

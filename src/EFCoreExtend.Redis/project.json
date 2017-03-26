@@ -1,21 +1,36 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "authors": [ "skig" ],
   "description": "Entity Framework Core extension library.",
   "packOptions": {
+    "projectUrl": "https://github.com/skigs/EFCoreExtend",
+    "licenseUrl": "https://github.com/skigs/EFCoreExtend/blob/master/LICENSE",
+    "iconUrl": "https://avatars1.githubusercontent.com/u/25163942?v=3&s=40",
     "tags": [
-      "entity-framework-core-extend-redis",
-      "EntityFrameworkCoreExtendRedis",
-      "EFCoreExtend.Redis"
+      "entity-framework-core-extend",
+      "EntityFrameworkCoreExtend",
+      "EFCoreExtend",
+      "EntityFrameworkCore",
+      "EntityFramework",
+      "EFCore"
     ]
   },
   "dependencies": {
-    "EFCoreExtend": "1.0.21",
+    "EFCoreExtend": "1.1.0-*",
     "NETStandard.Library": "1.6.1-*",
     "StackExchange.Redis": "1.1.608-*"
   },
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Runtime": {
+          "type": "build"
+        }
+      }
+    },
+    "netstandard1.5": {
+      "dependencies": {
+      }
     }
   },
   "buildOptions": {

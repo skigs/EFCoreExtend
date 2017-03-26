@@ -19,7 +19,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Default
         {
             get
             {
-                return _policies;
+                return _policies as IReadOnlyDictionary<string, object>;
             }
             set
             {
@@ -48,7 +48,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Default
         {
             get
             {
-                return _sqls;
+                return _sqls as IReadOnlyDictionary<string, IConfigSqlInfo>;
             }
             set
             {

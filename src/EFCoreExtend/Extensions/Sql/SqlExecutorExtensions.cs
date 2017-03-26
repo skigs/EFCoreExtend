@@ -19,9 +19,9 @@ namespace EFCoreExtend
         /// <param name="parameters">sql的参数</param>
         /// <param name="ignoreProptsForRtnType">数据类型需要忽略的属性名</param>
         /// <returns></returns>
-        public static IReadOnlyList<T> QueryUseDict<T>(this ISqlExecutor executor, DbContext db, string sql, 
-            IReadOnlyDictionary<string, object> parameters, 
-            IReadOnlyCollection<string> ignoreProptsForRtnType = null)
+        public static IReadOnlyList<T> QueryUseDict<T>(this ISqlExecutor executor, DbContext db, string sql,
+            IDictionary<string, object> parameters, 
+            IEnumerable<string> ignoreProptsForRtnType = null)
             where T : new()
         {
             return executor.Query<T>(db, sql, EFHelper.Services.SqlParamConverter.DictionaryToDBParams(db, parameters), ignoreProptsForRtnType);
@@ -40,8 +40,8 @@ namespace EFCoreExtend
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseModel<T>(this ISqlExecutor executor, DbContext db, string sql, 
             object paramsModel, 
-            IReadOnlyCollection<string> ignoreProptsForParamModel, 
-            IReadOnlyCollection<string> ignoreProptsForRtnType)
+            IEnumerable<string> ignoreProptsForParamModel, 
+            IEnumerable<string> ignoreProptsForRtnType)
             where T : new()
         {
             return executor.Query<T>(db, sql, 
@@ -62,7 +62,7 @@ namespace EFCoreExtend
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseModel<T>(this ISqlExecutor executor, DbContext db, string sql,
             object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel = null,
+            IEnumerable<string> ignoreProptsForParamModel = null,
             params string[] ignoreProptsForRtnType)
             where T : new()
         {
@@ -79,8 +79,8 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="parameters">sql的参数</param>
         /// <returns></returns>
-        public static object ScalarUseDict(this ISqlExecutor executor, DbContext db, string sql, 
-            IReadOnlyDictionary<string, object> parameters)
+        public static object ScalarUseDict(this ISqlExecutor executor, DbContext db, string sql,
+            IDictionary<string, object> parameters)
         {
             return executor.Scalar(db, sql, EFHelper.Services.SqlParamConverter.DictionaryToDBParams(db, parameters));
         }
@@ -96,7 +96,7 @@ namespace EFCoreExtend
         /// <returns></returns>
         public static object ScalarUseModel(this ISqlExecutor executor, DbContext db, string sql, 
             object paramsModel, 
-            IReadOnlyCollection<string> ignoreProptsForParamModel)
+            IEnumerable<string> ignoreProptsForParamModel)
         {
             return executor.Scalar(db, sql, EFHelper.Services.SqlParamConverter.ObjectToDBParams(db, paramsModel, ignoreProptsForParamModel));
         }
@@ -126,8 +126,8 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="parameters">sql的参数</param>
         /// <returns></returns>
-        public static int NonQueryUseDict(this ISqlExecutor executor, DbContext db, string sql, 
-            IReadOnlyDictionary<string, object> parameters)
+        public static int NonQueryUseDict(this ISqlExecutor executor, DbContext db, string sql,
+            IDictionary<string, object> parameters)
         {
             return executor.NonQuery(db, sql, EFHelper.Services.SqlParamConverter.DictionaryToDBParams(db, parameters));
         }
@@ -143,7 +143,7 @@ namespace EFCoreExtend
         /// <returns></returns>
         public static int NonQueryUseModel(this ISqlExecutor executor, DbContext db, string sql, 
             object paramsModel, 
-            IReadOnlyCollection<string> ignoreProptsForParamModel)
+            IEnumerable<string> ignoreProptsForParamModel)
         {
             return executor.NonQuery(db, sql, EFHelper.Services.SqlParamConverter.ObjectToDBParams(db, paramsModel, ignoreProptsForParamModel));
         }

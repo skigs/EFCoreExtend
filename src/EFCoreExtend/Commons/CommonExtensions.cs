@@ -141,6 +141,34 @@ namespace EFCoreExtend.Commons
             return false;
         }
 
+        public static bool HasValue<T>(this ICollection<T> list)
+        {
+            return list?.Count > 0;
+        }
+
+        public static bool HasValueR<T>(this IReadOnlyCollection<T> list)
+        {
+            return list?.Count > 0;
+        }
+
+        public static bool HasValueE<T>(this IEnumerable<T> list)
+        {
+            if (list == null)
+            {
+                return false;
+            }
+
+            var coll = list as ICollection<T>;
+            if (coll != null)
+            {
+                return coll.Count > 0;
+            }
+            else
+            {
+                return list.Any();
+            }
+        }
+
         #endregion
 
         #region ToString
@@ -207,6 +235,11 @@ namespace EFCoreExtend.Commons
         public static bool TryChangeValueType(this Type type, object value, out object outValue)
         {
             outValue = value;
+            if(value == null)
+            {
+                return false;
+            }
+
             var valType = value.GetType();
             if (type == valType)
             {
@@ -220,7 +253,8 @@ namespace EFCoreExtend.Commons
                     //判断是否为可空类型
                     if (type.IsNullableType())
                     {
-                        var gargs = tinfo.GetGenericArguments();
+                        //var gargs = tinfo.GetGenericArguments();
+                        var gargs = type.GetGenericArguments();
                         if (gargs?.Length > 0)
                         {
                             //获取可空类型的泛型类型

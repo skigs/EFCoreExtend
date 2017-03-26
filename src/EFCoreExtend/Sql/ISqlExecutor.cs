@@ -21,7 +21,7 @@ namespace EFCoreExtend.Sql
         /// <param name="ignoreProptsForRtnType">需要忽略的返回值类型的属性</param>
         /// <returns></returns>
         IReadOnlyList<T> Query<T>(DbContext db, string sql, IDataParameter[] parameters = null, 
-            IReadOnlyCollection<string> ignoreProptsForRtnType = null)
+            IEnumerable<string> ignoreProptsForRtnType = null)
             where T : new();
 
         /// <summary>

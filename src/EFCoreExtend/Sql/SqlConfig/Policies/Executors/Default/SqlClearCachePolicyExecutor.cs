@@ -1,4 +1,5 @@
-﻿using EFCoreExtend.EFCache;
+﻿using EFCoreExtend.Commons;
+using EFCoreExtend.EFCache;
 using EFCoreExtend.Sql.SqlConfig.Policies;
 using EFCoreExtend.Sql.SqlConfig.Policies.Default;
 using System;
@@ -23,6 +24,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
             _cache = cache;
         }
 
+        protected readonly static Type _tInt = typeof(int);
         public void Execute(ISqlExecutePolicyExecutorInfo info)
         {
             //缓存清理
@@ -36,24 +38,31 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
                 if (IsUsePolicy(policy))
                 {
                     //到数据库中执行sql
-                    var result = (int)info.ToDBExecutor();
-                    //返回值大于0，就是NonQuery有处理的数据才进行清理缓存
-                    if (result > 0)
+                    var dbrtn = info.ToDBExecutor();
+
+                    object objrtn = 0;
+                    if (_tInt.TryChangeValueType(dbrtn, out objrtn))
                     {
-                        //是否使用异步
-                        if (policy.IsAsync)
+                        var result = (int)objrtn;
+                        //返回值大于0，就是有处理的数据才进行清理缓存
+                        if (result > 0)
                         {
-                            Task.Run(() =>
+                            //是否使用异步
+                            if (policy.IsAsync)
+                            {
+                                Task.Run(() =>
+                                {
+                                    ClearCache(info.TableName, policy);
+                                });
+                            }
+                            else
                             {
                                 ClearCache(info.TableName, policy);
-                            });
-                        }
-                        else
-                        {
-                            ClearCache(info.TableName, policy);
+                            }
                         }
                     }
-                    info.ReturnValue = result;
+
+                    info.ReturnValue = dbrtn;
                     //执行之后，那么结束
                     info.IsEnd = true;
                 }
@@ -93,7 +102,13 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
             {
                 foreach (var pair in policy.TableCacheTypes)
                 {
-                    _cache.Remove(pair.Key, pair.Value);
+                    if (pair.Value?.Count > 0)
+                    {
+                        foreach (var ct in pair.Value)
+                        {
+                            _cache.Remove(pair.Key, ct);
+                        } 
+                    }
                 }
             }
         }

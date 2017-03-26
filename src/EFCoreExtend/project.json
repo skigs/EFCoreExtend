@@ -1,11 +1,18 @@
-﻿{
-  "version": "1.0.21",
+{
+  "version": "1.1.0",
+  "authors": [ "skig" ],
   "description": "Entity Framework Core extension library.",
   "packOptions": {
+    "projectUrl": "https://github.com/skigs/EFCoreExtend",
+    "licenseUrl": "https://github.com/skigs/EFCoreExtend/blob/master/LICENSE",
+    "iconUrl": "https://avatars1.githubusercontent.com/u/25163942?v=3&s=40",
     "tags": [
       "entity-framework-core-extend",
       "EntityFrameworkCoreExtend",
-      "EFCoreExtend"
+      "EFCoreExtend",
+      "EntityFrameworkCore",
+      "EntityFramework",
+      "EFCore"
     ]
   },
   "dependencies": {
@@ -14,12 +21,20 @@
     "NETStandard.Library": "1.6.1-*",
     "Newtonsoft.Json": "9.0.1-*",
     "System.ComponentModel.Primitives": "4.1.0-*",
-    "System.Data.Common": "4.3.0-*",
-    "System.Reflection.TypeExtensions": "4.3.0-*"
+    "System.Data.Common": "4.3.0-*"
   },
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Runtime": {
+          "type": "build"
+        }
+      }
+    },
+    "netstandard1.3": {
+      "dependencies": {
+        "System.Reflection.TypeExtensions": "4.3.0-*"
+      }
     }
   },
   "buildOptions": {

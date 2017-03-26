@@ -22,7 +22,7 @@ namespace EFCoreExtend.Commons.Default
         /// <param name="type"></param>
         /// <param name="ignoreProptNames">需要忽略的属性</param>
         /// <returns></returns>
-        protected virtual IReadOnlyList<PropertyInfo> DoGetPublicInstancePropts(Type type, IReadOnlyCollection<string> ignoreProptNames = null)
+        protected virtual IReadOnlyList<PropertyInfo> DoGetPublicInstancePropts(Type type, IEnumerable<string> ignoreProptNames = null)
         {
             if (!type.GetTypeInfo().IsClass)
             {
@@ -37,7 +37,7 @@ namespace EFCoreExtend.Commons.Default
             }
 
             //判断是否需要忽略某些属性
-            if (ignoreProptNames?.Count > 0 && listPropts?.Count > 0)
+            if (ignoreProptNames.HasValueE() && listPropts?.Count > 0)
             {
                 listPropts = listPropts.Where(l => !ignoreProptNames.Contains(l.Name)).ToList();
             }
@@ -51,7 +51,7 @@ namespace EFCoreExtend.Commons.Default
         /// <param name="objModel"></param>
         /// <param name="ignoreProptNames"></param>
         /// <returns></returns>
-        public IReadOnlyDictionary<string, object> GetPublicInstanceProptValues(object objModel, IReadOnlyCollection<string> ignoreProptNames = null)
+        public IDictionary<string, object> GetPublicInstanceProptValues(object objModel, IEnumerable<string> ignoreProptNames = null)
         {
             if (objModel != null)
             {
@@ -71,7 +71,7 @@ namespace EFCoreExtend.Commons.Default
         /// <param name="type"></param>
         /// <param name="ignoreProptNames"></param>
         /// <returns></returns>
-        public IReadOnlyList<PropertyInfo> GetPublicInstancePropts(Type type, IReadOnlyCollection<string> ignoreProptNames = null)
+        public IReadOnlyList<PropertyInfo> GetPublicInstancePropts(Type type, IEnumerable<string> ignoreProptNames = null)
         {
             return DoGetPublicInstancePropts(type, ignoreProptNames);
         }

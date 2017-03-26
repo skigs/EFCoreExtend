@@ -56,7 +56,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
             {
                 int i = 0;
                 string vname;
-                var dictParams = new Dictionary<string, object>();
+                IDictionary<string, object> dictParams = new Dictionary<string, object>();
 
                 foreach (var l in feachParams)
                 {
@@ -115,7 +115,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
             {
                 int i = 0;
                 string vname;
-                var dictParams = new Dictionary<string, object>();
+                IDictionary<string, object> dictParams = new Dictionary<string, object>();
                 //对key-value进行拼接
                 var strVals = feachParams.JoinToString(policy.Separator, l =>
                 {

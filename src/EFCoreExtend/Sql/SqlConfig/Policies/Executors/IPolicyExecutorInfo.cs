@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors
 {
-    public interface IPolicyExecutorInfo
+    public interface IPolicyExecutorInfo : IPolicyExecutorInfoBase
     {
         /// <summary>
         /// 策略名称

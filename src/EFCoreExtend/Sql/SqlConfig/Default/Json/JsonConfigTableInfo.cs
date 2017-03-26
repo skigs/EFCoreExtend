@@ -14,7 +14,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Default.Json
         {
             get
             {
-                return this._sqls;
+                return this._sqls as IReadOnlyDictionary<string, ConfigSqlInfo>;
             }
             set
             {

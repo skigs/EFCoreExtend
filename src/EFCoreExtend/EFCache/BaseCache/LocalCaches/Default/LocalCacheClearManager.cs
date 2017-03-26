@@ -56,16 +56,15 @@ namespace EFCoreExtend.EFCache.BaseCache.LocalCaches.Default
         static void ClearCache()
         {
             using (_timer) { }
-
-            List<ConcurrentDictionary<string, ILocalCacheInfo>> listDict = null;
-            ConcurrentDictionary<string, ILocalCacheInfo> dict = null;
-            List<KeyValuePair<string, ILocalCacheInfo>> listCache = null;
-            KeyValuePair<string, ILocalCacheInfo> pair;
-            ILocalCacheInfo cacheModel = null;
-            int i = 0, j = 0;
-
             _timer = new Timer(obj =>
             {
+                List<ConcurrentDictionary<string, ILocalCacheInfo>> listDict = null;
+                ConcurrentDictionary<string, ILocalCacheInfo> dict = null;
+                List<KeyValuePair<string, ILocalCacheInfo>> listCache = null;
+                KeyValuePair<string, ILocalCacheInfo> pair;
+                ILocalCacheInfo cacheModel = null;
+                int i = 0, j = 0;
+
                 try
                 {
                     if (_dictCacheMgr.Count > 0)

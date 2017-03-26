@@ -39,7 +39,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Default
         /// <summary>
         /// 需要进行缓存清理的类型(key为TableName，value为CacheType，一般用于清理 其他表下 的CacheType)
         /// </summary>
-        public IReadOnlyDictionary<string, string> TableCacheTypes { get; set; }
+        public IReadOnlyDictionary<string, IReadOnlyList<string>> TableCacheTypes { get; set; }
 
     }
 }

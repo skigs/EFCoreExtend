@@ -94,7 +94,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Default
             //初始化型策略执行器的调用
             var info = new PolicyExecutorInfo()
             {
-                NewlySqls = _dictNewlySqls,
+                NewlySqls = _dictNewlySqls as IReadOnlyDictionary<string, IDictionary<string, string>>,
                 TableSqlInfos = _config.TableSqlInfos,
             };
             _policyMgr.InvokeInitPolicyExecutors(null, info);

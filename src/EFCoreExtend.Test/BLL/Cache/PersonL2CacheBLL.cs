@@ -44,7 +44,7 @@ namespace EFCoreExtend.Test
         }
 
         /// <summary>
-        /// "span": "00:00:03" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），这里设置为3s（方便测试）
+        /// "span": "0:0:3" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），这里设置为3s（方便测试）
         /// </summary>
         /// <returns></returns>
         public IReadOnlyList<Person> GetListL2Cache3()
@@ -56,7 +56,7 @@ namespace EFCoreExtend.Test
         }
 
         /// <summary>
-        ///  "span": "00:00:03", //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），这里设置为3s（方便测试）
+        ///  "span": "0:0:3", //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），这里设置为3s（方便测试）
         ///  "isUpdateEach": true //是否每次获取缓存之后更新过期时间(这个属性 + span属性来进行模拟session访问更新过期时间)
         /// </summary>
         /// <returns></returns>
@@ -139,7 +139,7 @@ namespace EFCoreExtend.Test
 
         /// <summary>
         /// "tableCacheTypes": { //需要进行缓存清理的类型(key为TableName，value为CacheType，一般用于清理 其他表下 的CacheType)
-        ///     "Address": "query"}
+        ///     "Address": [ "query" ]}
         /// </summary>
         /// <returns></returns>
         public int UpdatePersonL2Cache2()

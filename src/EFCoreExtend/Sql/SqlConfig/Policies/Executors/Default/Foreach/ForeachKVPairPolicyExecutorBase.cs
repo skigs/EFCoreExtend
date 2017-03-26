@@ -35,7 +35,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
             Tuple<string, string> symbol,
             IEnumerable<KeyValuePair<string, object>> dict, string sql, string valueName, out IDataParameter[] newParameters)
         {
-            var dictParam = new Dictionary<string, object>();
+            IDictionary<string, object> dictParam = new Dictionary<string, object>();
             string vpName;
             int i = 0;
 

@@ -34,7 +34,7 @@ namespace EFCoreExtend.Commons
         /// <param name="parameters"></param>
         /// <param name="toMD5"></param>
         /// <returns></returns>
-        string CombineSqlAndParamsToString(string sql, IReadOnlyDictionary<string, object> parameters, bool toMD5 = true);
+        string CombineSqlAndParamsToString(string sql, IEnumerable<KeyValuePair<string, object>> parameters, bool toMD5 = true);
 
         /// <summary>
         /// 合并sql与SqlParameters
@@ -43,7 +43,7 @@ namespace EFCoreExtend.Commons
         /// <param name="parameters"></param>
         /// <param name="toMD5"></param>
         /// <returns></returns>
-        string CombineSqlAndParamsToString(string sql, IReadOnlyCollection<IDataParameter> parameters, bool toMD5 = true);
+        string CombineSqlAndParamsToString(string sql, IEnumerable<IDataParameter> parameters, bool toMD5 = true);
 
         /// <summary>
         /// 将两个SqlParameters数组合并

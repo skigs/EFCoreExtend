@@ -31,6 +31,8 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
 
         public object ReturnValue { get; set; }
 
+        public Type ReturnType { get; set; }
+
         public string Sql { get; set; }
 
         public string SqlName { get; set; }

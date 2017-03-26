@@ -14,7 +14,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Default
     public class SqlConfig : ISqlConfig
     {
         readonly ConcurrentDictionary<string, IConfigTableInfo> _tableSqls = new ConcurrentDictionary<string, IConfigTableInfo>();
-        public IReadOnlyDictionary<string, IConfigTableInfo> TableSqlInfos => _tableSqls;
+        public IReadOnlyDictionary<string, IConfigTableInfo> TableSqlInfos => _tableSqls as IReadOnlyDictionary<string, IConfigTableInfo>;
         /// <summary>
         /// 配置数据被修改了
         /// </summary>

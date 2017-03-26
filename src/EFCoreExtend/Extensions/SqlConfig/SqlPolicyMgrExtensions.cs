@@ -200,10 +200,11 @@ namespace EFCoreExtend
         /// <param name="mgr"></param>
         /// <param name="policies"></param>
         /// <param name="info"></param>
-        public static void InvokeInitPolicyExecutors(this ISqlPolicyManager mgr,
-           IReadOnlyDictionary<string, ISqlConfigPolicy> policies, ISqlInitPolicyExecutorInfo info)
+        public static void InvokeInitPolicyExecutors<T>(this ISqlPolicyManager mgr,
+           IDictionary<string, ISqlConfigPolicy> policies, T info)
+            where T : IPolicyExecutorInfo, ISqlInitPolicyExecutorInfo
         {
-            mgr.InvokeExecutors(policies, info);
+            mgr.InvokeExecutors(policies, info, typeof(ISqlInitPolicyExecutorInfo));
         }
 
         /// <summary>
@@ -212,10 +213,11 @@ namespace EFCoreExtend
         /// <param name="mgr"></param>
         /// <param name="policies"></param>
         /// <param name="info"></param>
-        public static void InvokePreExecutePolicyExecutors(this ISqlPolicyManager mgr,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies, ISqlPreExecutePolicyExecutorInfo info)
+        public static void InvokePreExecutePolicyExecutors<T>(this ISqlPolicyManager mgr,
+            IDictionary<string, ISqlConfigPolicy> policies, T info)
+            where T : IPolicyExecutorInfo, ISqlPreExecutePolicyExecutorInfo
         {
-            mgr.InvokeExecutors(policies, info);
+            mgr.InvokeExecutors(policies, info, typeof(ISqlPreExecutePolicyExecutorInfo));
         }
 
         /// <summary>
@@ -224,10 +226,11 @@ namespace EFCoreExtend
         /// <param name="mgr"></param>
         /// <param name="policies"></param>
         /// <param name="info"></param>
-        public static void InvokeExecutePolicyExecutors(this ISqlPolicyManager mgr,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies, ISqlExecutePolicyExecutorInfo info)
+        public static void InvokeExecutePolicyExecutors<T>(this ISqlPolicyManager mgr,
+            IDictionary<string, ISqlConfigPolicy> policies, T info)
+            where T : IPolicyExecutorInfo, ISqlExecutePolicyExecutorInfo
         {
-            mgr.InvokeExecutors(policies, info);
+            mgr.InvokeExecutors(policies, info, typeof(ISqlExecutePolicyExecutorInfo));
         } 
         #endregion
 

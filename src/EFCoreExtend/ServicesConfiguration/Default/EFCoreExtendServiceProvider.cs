@@ -29,16 +29,34 @@ namespace EFCoreExtend.ServicesConfiguration.Default
             EFCoreExUtility = Provider.GetService<IEFCoreExtendUtility>();
         }
 
+        /// <summary>
+        /// 查询缓存
+        /// </summary>
         public IEFQueryCache Cache { get; }
+        /// <summary>
+        /// sql执行器
+        /// </summary>
         public ISqlExecutor SqlExecutor { get; }
+        /// <summary>
+        /// sql配置管理器
+        /// </summary>
         public ISqlConfigManager SqlConfigMgr { get; }
+        /// <summary>
+        /// sql参数转换器
+        /// </summary>
         public ISqlParamConverter SqlParamConverter { get; }
+        /// <summary>
+        /// 反射帮助类
+        /// </summary>
         public IObjectReflector ObjReflector { get; }
+        /// <summary>
+        /// 帮助工具
+        /// </summary>
         public IEFCoreExtendUtility EFCoreExUtility { get; }
 
         IQueryCacheContainerMgr _queryCacheContainerMgr;
         /// <summary>
-        /// 是否使用EFQueryCache
+        /// 是否使用EF查询缓存服务
         /// </summary>
         public bool IsUseCache
         {

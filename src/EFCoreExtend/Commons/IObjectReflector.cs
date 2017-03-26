@@ -17,7 +17,7 @@ namespace EFCoreExtend.Commons
         /// <param name="objModel"></param>
         /// <param name="ignoreProptNames">需要忽略的属性</param>
         /// <returns></returns>
-        IReadOnlyDictionary<string, object> GetPublicInstanceProptValues(object objModel, IReadOnlyCollection<string> ignoreProptNames = null);
+        IDictionary<string, object> GetPublicInstanceProptValues(object objModel, IEnumerable<string> ignoreProptNames = null);
 
         /// <summary>
         /// 获取公有非静态的属性值
@@ -25,7 +25,7 @@ namespace EFCoreExtend.Commons
         /// <param name="type"></param>
         /// <param name="ignoreProptNames">需要忽略的属性</param>
         /// <returns></returns>
-        IReadOnlyList<PropertyInfo> GetPublicInstancePropts(Type type, IReadOnlyCollection<string> ignoreProptNames = null);
+        IReadOnlyList<PropertyInfo> GetPublicInstancePropts(Type type, IEnumerable<string> ignoreProptNames = null);
 
         /// <summary>
         /// 获取指定属性的值（包括静态属性的获取）

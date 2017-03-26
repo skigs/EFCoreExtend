@@ -23,7 +23,7 @@ namespace EFCoreExtend
         /// <param name="ignoreProptsForRtnType">数据类型需要忽略的属性名</param>
         /// <returns></returns>
         public static IReadOnlyList<T> Query<T>(this DbContext db, string sql,
-            IDataParameter[] parameters = null, IReadOnlyCollection<string> ignoreProptsForRtnType = null)
+            IDataParameter[] parameters = null, IEnumerable<string> ignoreProptsForRtnType = null)
             where T : new()
         {
             return EFHelper.Services.SqlExecutor.Query<T>(db, sql, parameters, ignoreProptsForRtnType);
@@ -38,9 +38,9 @@ namespace EFCoreExtend
         /// <param name="parameters">sql的参数</param>
         /// <param name="ignoreProptsForRtnType">数据类型需要忽略的属性名</param>
         /// <returns></returns>
-        public static IReadOnlyList<T> QueryUseDict<T>(this DbContext db, string sql, 
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyCollection<string> ignoreProptsForRtnType = null)
+        public static IReadOnlyList<T> QueryUseDict<T>(this DbContext db, string sql,
+            IDictionary<string, object> parameters,
+            IEnumerable<string> ignoreProptsForRtnType = null)
             where T : new()
         {
             return EFHelper.Services.SqlExecutor.QueryUseDict<T>(db, sql, parameters, ignoreProptsForRtnType);
@@ -58,8 +58,8 @@ namespace EFCoreExtend
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseModel<T>(this DbContext db, string sql,
             object paramsModel, 
-            IReadOnlyCollection<string> ignoreProptsForParamModel = null, 
-            IReadOnlyCollection<string> ignoreProptsForRtnType = null)
+            IEnumerable<string> ignoreProptsForParamModel = null, 
+            IEnumerable<string> ignoreProptsForRtnType = null)
             where T : new()
         {
             return EFHelper.Services.SqlExecutor.QueryUseModel<T>(db, sql, paramsModel, 
@@ -87,8 +87,8 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="parameters">sql的参数</param>
         /// <returns></returns>
-        public static object ScalarUseDict(this DbContext db, string sql, 
-            IReadOnlyDictionary<string, object> parameters)
+        public static object ScalarUseDict(this DbContext db, string sql,
+            IDictionary<string, object> parameters)
         {
             return EFHelper.Services.SqlExecutor.ScalarUseDict(db, sql, parameters);
         }
@@ -102,7 +102,7 @@ namespace EFCoreExtend
         /// <param name="ignoreProptsForParamModel">sql的参数模型对象中需要忽略的属性名</param>
         /// <returns></returns>
         public static object ScalarUseModel(this DbContext db, string sql, object paramsModel, 
-            IReadOnlyCollection<string> ignoreProptsForParamModel = null)
+            IEnumerable<string> ignoreProptsForParamModel = null)
         {
             return EFHelper.Services.SqlExecutor.ScalarUseModel(db, sql, paramsModel, ignoreProptsForParamModel);
         }
@@ -128,8 +128,8 @@ namespace EFCoreExtend
         /// <param name="sql"></param>
         /// <param name="parameters">sql的参数</param>
         /// <returns></returns>
-        public static int NonQueryUseDict(this DbContext db, string sql, 
-            IReadOnlyDictionary<string, object> parameters)
+        public static int NonQueryUseDict(this DbContext db, string sql,
+            IDictionary<string, object> parameters)
         {
             return EFHelper.Services.SqlExecutor.NonQueryUseDict(db, sql, parameters);
         }
@@ -143,7 +143,7 @@ namespace EFCoreExtend
         /// <param name="ignoreProptsForParamModel">sql的参数模型对象中需要忽略的属性名</param>
         /// <returns></returns>
         public static int NonQueryUseModel(this DbContext db, string sql, object paramsModel, 
-            IReadOnlyCollection<string> ignoreProptsForParamModel = null)
+            IEnumerable<string> ignoreProptsForParamModel = null)
         {
             return EFHelper.Services.SqlExecutor.NonQueryUseModel(db, sql, paramsModel, ignoreProptsForParamModel);
         }

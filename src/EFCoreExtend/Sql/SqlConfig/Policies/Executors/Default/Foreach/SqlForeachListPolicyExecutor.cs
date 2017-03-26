@@ -111,7 +111,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
             newParameters = null;
             if (pinfo.IsToSqlParam)
             {
-                var dictParam = new Dictionary<string, object>();
+                IDictionary<string, object> dictParam = new Dictionary<string, object>();
                 int i = 0;
                 string vpName;
                 var strVals = list.JoinToString(pinfo.Separator, l =>

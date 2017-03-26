@@ -21,7 +21,7 @@ namespace EFCoreExtend.EFCache.BaseCache.LocalCaches.Default
             LocalCacheClearManager.Add(_dictKey, _dict);//添加到缓存清理器中
         }
 
-        public override IReadOnlyDictionary<string, ILocalCacheInfo> Caches => _dict;
+        public override IReadOnlyDictionary<string, ILocalCacheInfo> Caches => _dict as IReadOnlyDictionary<string, ILocalCacheInfo>;
 
         public override void SetCache(string cacheKey, object val, DateTime? expiry = null)
         {

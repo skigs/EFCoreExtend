@@ -29,22 +29,58 @@ namespace EFCoreExtend.Redis.EFCache
             return _splitVal + _tableName + _splitVal;
         }
 
-        protected override bool TryGetCache<TRtn>(string cacheType, string cacheKey, out TRtn rtn)
+        protected override bool TryGetCache<TRtn>(string cacheType, string cacheKey, out TRtn rtn, 
+            Type rtnType = null)
         {
-            return _redisConnect.TryGet<TRtn>(GetKey(cacheType, cacheKey), out rtn);
+            if (rtnType == null)
+            {
+                return _redisConnect.TryGet<TRtn>(GetKey(cacheType, cacheKey), out rtn);
+            }
+            else
+            {
+                object rtnobj;
+                if (_redisConnect.TryGet(GetKey(cacheType, cacheKey), rtnType, out rtnobj))
+                {
+                    rtn = (TRtn)rtnobj;
+                    return true;
+                }
+                else
+                {
+                    rtn = default(TRtn);
+                    return false;
+                }
+            }
         }
 
-        protected override bool TryGetCacheAndUpdateCacheTime<TRtn>(string cacheType, string cacheKey, DateTime expiry, out TRtn rtn)
+        protected override bool TryGetCacheAndUpdateCacheTime<TRtn>(string cacheType, string cacheKey, DateTime expiry, out TRtn rtn, 
+            Type rtnType = null)
         {
-            return _redisConnect.TryGet<TRtn>(GetKey(cacheType, cacheKey), expiry, out rtn);
+            if(rtnType == null)
+            {
+                return _redisConnect.TryGet<TRtn>(GetKey(cacheType, cacheKey), expiry, out rtn);
+            }
+            else
+            {
+                object rtnobj;
+                if (_redisConnect.TryGet(GetKey(cacheType, cacheKey), expiry, rtnType, out rtnobj))
+                {
+                    rtn = (TRtn)rtnobj;
+                    return true;
+                }
+                else
+                {
+                    rtn = default(TRtn);
+                    return false;
+                }
+            }
         }
 
-        protected override void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel)
+        protected override void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel, Type rtnType = null)
         {
             _redisConnect.SetJson(GetKey(cacheType, cacheKey), cacheModel);
         }
 
-        protected override void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel, DateTime expiry)
+        protected override void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel, DateTime expiry, Type rtnType = null)
         {
             _redisConnect.SetJson(GetKey(cacheType, cacheKey), cacheModel, expiry);
         }

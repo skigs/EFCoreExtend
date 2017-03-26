@@ -79,13 +79,14 @@ namespace EFCoreExtend.Commons.Default
         #region Combine
         protected readonly string _splitChar = ",";
         protected readonly string _splitSqlAndParamsChar = ";";
-        public string CombineSqlAndParamsToString(string sql, IReadOnlyDictionary<string, object> parameters, bool toMD5 = true)
+        public string CombineSqlAndParamsToString(string sql, IEnumerable<KeyValuePair<string, object>> parameters, 
+            bool toMD5 = true)
         {
-            if (parameters?.Count > 0)
+            //不使用Any()进行判断，而是参数传递Count属性，然后扩展方法进行相应的扩展，提高些许性能
+            if (parameters.HasValueE())
             {
                 StringBuilder sb = new StringBuilder();
                 var pairs = parameters.OrderBy(l => l.Key);
-
                 bool bSplit = false;
                 foreach (var pair in pairs)
                 {
@@ -108,9 +109,11 @@ namespace EFCoreExtend.Commons.Default
             }
         }
 
-        public string CombineSqlAndParamsToString(string sql, IReadOnlyCollection<IDataParameter> parameters, bool toMD5 = true)
+        public string CombineSqlAndParamsToString(string sql, IEnumerable<IDataParameter> parameters, 
+            bool toMD5 = true)
         {
-            if (parameters?.Count > 0)
+            //不使用Any()进行判断，而是参数传递Count属性，然后扩展方法进行相应的扩展，提高些许性能
+            if (parameters.HasValueE())
             {
                 StringBuilder sb = new StringBuilder();
                 var pairs = parameters.OrderBy(l => l.ParameterName);

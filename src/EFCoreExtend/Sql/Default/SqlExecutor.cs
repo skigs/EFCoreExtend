@@ -33,13 +33,13 @@ namespace EFCoreExtend.Sql.Default
                 }
                 else if (proptType == _tString)
                 {
-                    if (val.GetType() != _tString)
+                    if (val is string)
                     {
-                        return val.ToString();
+                        return val;
                     }
                     else
                     {
-                        return val;
+                        return val.ToString();                        
                     }
                 }
                 else

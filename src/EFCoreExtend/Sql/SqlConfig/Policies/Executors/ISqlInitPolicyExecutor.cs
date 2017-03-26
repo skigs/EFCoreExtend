@@ -8,9 +8,8 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors
     /// <summary>
     /// 用于初始化的策略执行器，就是在程序运行期间只执行一次，除非sql的配置数据发生了改变（例如：替换表名 / 合并分部sql等的执行器）
     /// </summary>
-    public interface ISqlInitPolicyExecutor
+    public interface ISqlInitPolicyExecutor : ISqlPolicyExecutor<ISqlInitPolicyExecutorInfo>
     {
-        void Execute(ISqlInitPolicyExecutorInfo info);
     }
 
     public interface ISqlInitPolicyExecutorInfo : IPolicyExecutorInfoBase

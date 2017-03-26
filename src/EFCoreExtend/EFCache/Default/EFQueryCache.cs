@@ -29,7 +29,8 @@ namespace EFCoreExtend.EFCache.Default
             return _evaluator.PartialEval(query.Expression).ToString().ToMD5();
         }
 
-        public TRtn Cache<TRtn>(string tableName, string cacheType, IQueryable query, Func<TRtn> toDBGet, IQueryCacheExpiryPolicy expiryPolicy)
+        public TRtn Cache<TRtn>(string tableName, string cacheType, IQueryable query, Func<TRtn> toDBGet, 
+            IQueryCacheExpiryPolicy expiryPolicy)
         {
             return Cache(tableName, cacheType, QueryableToCacheKey(query), toDBGet, expiryPolicy);
         }

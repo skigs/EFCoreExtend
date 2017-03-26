@@ -52,7 +52,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
                     var cacheType = string.IsNullOrEmpty(policy.Type) ? defCacheType : policy.Type;
                     info.ReturnValue = _cache.Cache(info.TableName, cacheType,
                         _util.CombineSqlAndParamsToString(info.Sql, info.SqlParams),
-                        info.ToDBExecutor, policy.Expiry);
+                        info.ToDBExecutor, policy.Expiry, info.ReturnType);
 
                     //执行缓存成功，那么结束
                     info.IsEnd = true;

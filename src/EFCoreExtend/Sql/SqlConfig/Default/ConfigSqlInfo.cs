@@ -21,7 +21,7 @@ namespace EFCoreExtend.Sql.SqlConfig.Default
         {
             get
             {
-                return _policies;
+                return _policies as IReadOnlyDictionary<string, object>;
             }
             set
             {

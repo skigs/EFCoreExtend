@@ -26,7 +26,9 @@ namespace EFCoreExtend.Evaluators.Default
                 {
                     return false;
                 }
-                if (_tIQueryable.GetTypeInfo().IsAssignableFrom(expression.Type))
+
+                //if (_tIQueryable.GetTypeInfo().IsAssignableFrom(expression.Type))
+                if (_tIQueryable.IsAssignableFrom(expression.Type))
                 {
                     return false;
                 }

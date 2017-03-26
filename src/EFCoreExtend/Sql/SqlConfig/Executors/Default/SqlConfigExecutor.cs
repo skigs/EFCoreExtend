@@ -73,13 +73,14 @@ namespace EFCoreExtend.Sql.SqlConfig.Executors.Default
         }
 
         public IReadOnlyList<T> Query<T>(IDataParameter[] parameters = null,
-            IReadOnlyCollection<string> ignoreProptsForRtnType = null, 
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies = null) where T : new()
+            IEnumerable<string> ignoreProptsForRtnType = null, 
+            IDictionary<string, ISqlConfigPolicy> policies = null) where T : new()
         {
             CheckSqlExecuteType(_sqlInfo, ConfigSqlExecuteType.query);
 
             var info = GetPolicyExecutorInfo();
             info.ExecuteType = ConfigSqlExecuteType.query;
+            info.ReturnType = typeof(IReadOnlyList<T>);
             info.SqlParams = parameters;
 
             //sql执行之前的策略器执行
@@ -103,12 +104,13 @@ namespace EFCoreExtend.Sql.SqlConfig.Executors.Default
         }
 
         public object Scalar(IDataParameter[] parameters = null, 
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies = null)
+            IDictionary<string, ISqlConfigPolicy> policies = null)
         {
             CheckSqlExecuteType(_sqlInfo, ConfigSqlExecuteType.scalar);
 
             var info = GetPolicyExecutorInfo();
             info.ExecuteType = ConfigSqlExecuteType.scalar;
+            info.ReturnType = typeof(object);
             info.SqlParams = parameters;
 
             //sql执行之前的策略器执行
@@ -131,12 +133,13 @@ namespace EFCoreExtend.Sql.SqlConfig.Executors.Default
             }
         }
 
-        public int NonQuery(IDataParameter[] parameters = null, IReadOnlyDictionary<string, ISqlConfigPolicy> policies = null)
+        public int NonQuery(IDataParameter[] parameters = null, IDictionary<string, ISqlConfigPolicy> policies = null)
         {
             CheckSqlExecuteType(_sqlInfo, ConfigSqlExecuteType.nonquery);
 
             var info = GetPolicyExecutorInfo();
             info.ExecuteType = ConfigSqlExecuteType.nonquery;
+            info.ReturnType = typeof(int);
             info.SqlParams = parameters;
 
             //sql执行之前的策略器执行

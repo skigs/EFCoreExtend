@@ -9,9 +9,10 @@ namespace EFCoreExtend
     {
         static EFHelper()
         {
-            ServiceBuilder = new EFCoreExtendServiceBuilder(p => 
+            ServiceBuilder = new EFCoreExtendServiceBuilder(p =>
             {
                 _serviceProvider = p;
+                ServiceBuiltCallback?.Invoke(p);
             });
             ServiceBuilder.AddDefaultServices().BuildServices();
         }
@@ -26,6 +27,11 @@ namespace EFCoreExtend
         /// EFCoreExtend的扩展服务
         /// </summary>
         public static IEFCoreExtendServiceProvider Services => _serviceProvider;
+
+        /// <summary>
+        /// 扩展服务重新编译之后的回调
+        /// </summary>
+        public static event Action<IEFCoreExtendServiceProvider> ServiceBuiltCallback;
 
     }
 

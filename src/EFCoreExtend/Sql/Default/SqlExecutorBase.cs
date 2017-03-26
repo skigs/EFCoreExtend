@@ -22,7 +22,7 @@ namespace EFCoreExtend.Sql.Default
         }
 
         public IReadOnlyList<T> Query<T>(DbContext db, string sql, IDataParameter[] parameters = null,
-            IReadOnlyCollection<string> ignoreProptNames = null)
+            IEnumerable<string> ignoreProptsForRtnType = null)
             where T : new()
         {
             var concurrencyDetector = db.GetService<IConcurrencyDetector>();
@@ -34,7 +34,7 @@ namespace EFCoreExtend.Sql.Default
                 object val;
                 using (reader.DbDataReader)
                 {
-                    var propts = _objReflec.GetPublicInstancePropts(typeof(T), ignoreProptNames);
+                    var propts = _objReflec.GetPublicInstancePropts(typeof(T), ignoreProptsForRtnType);
                     while (reader.DbDataReader.Read())
                     {
                         model = new T();

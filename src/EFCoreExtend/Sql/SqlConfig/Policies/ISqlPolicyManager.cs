@@ -32,10 +32,11 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies
         /// 执行相关的策略执行器
         /// </summary>
         /// <param name="policies">通过形参传递的策略对象集合</param>
-        /// <param name="info"></param>
+        /// <param name="info">策略执行器相关信息</param>
+        /// <param name="Type">策略执行器基类(接口)类型</param>
         /// <returns></returns>
-        void InvokeExecutors<T>(IReadOnlyDictionary<string, ISqlConfigPolicy> policies, T info)
-            where T : IPolicyExecutorInfoBase;
+        void InvokeExecutors(IDictionary<string, ISqlConfigPolicy> policies,
+            IPolicyExecutorInfo info, Type executorInfoBaseType);
 
     }
 }

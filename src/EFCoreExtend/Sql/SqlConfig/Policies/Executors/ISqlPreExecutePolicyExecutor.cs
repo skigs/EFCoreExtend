@@ -10,9 +10,8 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors
     /// <summary>
     /// 用于在sql执行前的策略执行器（例如：foreach执行器对某些数据类型（list/dict等等）进行生成字串替换到sql中）
     /// </summary>
-    public interface ISqlPreExecutePolicyExecutor
+    public interface ISqlPreExecutePolicyExecutor : ISqlPolicyExecutor<ISqlPreExecutePolicyExecutorInfo>
     {
-        void Execute(ISqlPreExecutePolicyExecutorInfo info);
     }
 
     public interface ISqlPreExecutePolicyExecutorInfo : IPolicyExecutorInfoBase

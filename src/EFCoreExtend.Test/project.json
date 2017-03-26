@@ -1,13 +1,18 @@
 {
   "version": "1.0.0",
+  "authors": [ "skig" ],
+  "packOptions": {
+    "projectUrl": "https://github.com/skigs/EFCoreExtend",
+    "licenseUrl": "https://github.com/skigs/EFCoreExtend/blob/master/LICENSE",
+    "iconUrl": "https://avatars1.githubusercontent.com/u/25163942?v=3&s=40"
+  },
   "testRunner": "xunit",
   "buildOptions": {
     "emitEntryPoint": true
   },
-
   "dependencies": {
-    "EFCoreExtend": "1.0.21",
-    "EFCoreExtend.Redis": "1.0.0",
+    "EFCoreExtend": "1.1.0",
+    "EFCoreExtend.Redis": "1.1.0",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "Microsoft.NETCore.App": {
@@ -18,9 +23,9 @@
     "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0",
     "System.Data.SqlClient": "4.3.0",
     "xunit": "2.2.0-beta2-build3300",
-    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "EFCoreExtend.Lua": "1.0.1"
   },
-
   "frameworks": {
     "netcoreapp1.0": {
       "imports": "dnxcore50"

@@ -6,7 +6,7 @@
     //  //"type"："",  //缓存的类型(Query默认为：query, Scalar默认为：scalar)
     //  "expiry": { //注意如果没有设置expiry的date/span，那么缓存不会过期的
     //    //"date": "2018-01-01", //指定缓存的过期日期
-    //    //"span": "00:00:03" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔）
+    //    //"span": "0:0:3" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔）
     //    //"isUpdateEach": true //是否每次获取缓存之后更新过期时间(这个属性 + span属性来进行模拟session访问更新过期时间)
     //  }
     //},
@@ -18,7 +18,7 @@
     //  "tables": [ "Address" ], //需要进行缓存清理的表的名称（一般用于清理 其他表下 的所有查询缓存）
     //  "cacheTypes": ["query1"], //需要进行缓存清理的类型（用于清理 所在表下 的CacheType查询缓存）
     //  "tableCacheTypes": { //需要进行缓存清理的类型(key为TableName，value为CacheType，一般用于清理 其他表下 的CacheType)
-    //    "Address": "query"
+    //    "Address": [ "query" ]
     //  }
     //}
   },
@@ -57,7 +57,7 @@
       "policies": {
         "l2cache": {
           "expiry": {
-            "span": "00:00:03" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），为了方便测试因此这里指定了3秒
+            "span": "0:0:3" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），为了方便测试因此这里指定了3秒
           }
         }
       }
@@ -68,7 +68,7 @@
       "policies": {
         "l2cache": {
           "expiry": {
-            "span": "00:00:03", //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），为了方便测试因此这里指定了3秒
+            "span": "0:0:3", //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），为了方便测试因此这里指定了3秒
             "isUpdateEach": true //是否每次获取缓存之后更新过期时间(这个属性 + span属性来进行模拟session访问更新过期时间)
           }
         }
@@ -128,7 +128,7 @@
       "policies": {
         "clear": {
           "tableCacheTypes": { //需要进行缓存清理的类型(key为TableName，value为CacheType，一般用于清理 其他表下 的CacheType)
-            "Address": "query"
+            "Address": [ "query" ]
           }
         }
       }

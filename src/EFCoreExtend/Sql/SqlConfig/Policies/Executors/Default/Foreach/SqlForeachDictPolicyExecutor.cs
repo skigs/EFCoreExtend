@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors.Default
 {
     /// <summary>
-    /// 对sql的参数SqlParameter为Dictionary<string, object>(IEnumerable<KeyValuePair<string, object>>)类型的参数进行遍历策略 的执行器
+    /// 对sql的参数SqlParameter为Dictionary类型的参数进行遍历策略 的执行器
     /// </summary>
     [SqlConfigPolicy(SqlConfigConst.SqlForeachDictPolicyName)]
     public class SqlForeachDictPolicyExecutor : ForeachKVPairPolicyExecutorBase, ISqlPreExecutePolicyExecutor

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using EFCoreExtend.Lua.SqlConfig;
+using EFCoreExtend.Commons;
+using System.IO;
 
 namespace EFCoreExtend.Test
 {
@@ -14,7 +18,7 @@ namespace EFCoreExtend.Test
 
             Console.WriteLine("ok");
             Console.ReadKey();
-
         }
+
     }
 }

@@ -112,10 +112,10 @@ namespace EFCoreExtend.Test
 
             //查询Query
             //方式三
-            //var list2 = person.GetList2<SqlParameter>();
+            var list2 = person.GetList2<SqlParameter>();
             //var list2 = person.GetList2<SqliteParameter>();
             //var list2 = person.GetList2<MySqlParameter>();
-            var list2 = person.GetList2<NpgsqlParameter>();
+            //var list2 = person.GetList2<NpgsqlParameter>();
             Assert.True(list2?.Count > 0);
             Assert.True(list2.Where(l => l.name != null).Count() <= 0);  //因为忽略获取name，因此那么应该为null
 

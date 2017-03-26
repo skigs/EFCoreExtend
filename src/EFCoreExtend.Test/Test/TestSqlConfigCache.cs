@@ -28,6 +28,15 @@ namespace EFCoreExtend.Test
 
         static TestSqlConfigCache()
         {
+            ////使用Redis进行缓存
+            //EFHelper.ServiceBuilder.AddQueryCacheCreator(sp =>
+            //    new Redis.EFCache.RedisQueryCacheCreator("127.0.0.1:6379,allowAdmin=true"))
+            //    .BuildServices();    //重新编译服务;
+            ////移除缓存，以免影响测试
+            //EFHelper.Services.Cache.Remove<Person>();
+            //EFHelper.Services.Cache.Remove<Address>();
+
+
             EFHelper.Services.SqlConfigMgr.Config.LoadDirectory(Directory.GetCurrentDirectory() + "/Datas/Cache");
             //sql日志记录策略执行器
             EFHelper.Services.SqlConfigMgr.PolicyMgr.SetSqlConfigExecuteLogPolicyExecutor(
@@ -178,7 +187,7 @@ namespace EFCoreExtend.Test
         {
             Assert.True(p2.AddPersonL2Cache() > 0);
 
-            var list = p2.GetListL2Cache3(); //"span": "00:00:03" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），这里设置为3s（方便测试）
+            var list = p2.GetListL2Cache3(); //"span": "0:0:3" //指定缓存的过期间隔（换算日期为：当前时间 + 时间间隔），这里设置为3s（方便测试）
             Assert.True(p2.AddPersonL2NotClearCache() > 0);
             var list1 = p2.GetListL2Cache3();
             Assert.True(list?.Count > 0);
@@ -199,7 +208,7 @@ namespace EFCoreExtend.Test
         {
             Assert.True(p2.AddPersonL2Cache() > 0);
 
-            var c1 = p2.CountL2Cache(); //"span": "00:00:03"，并且"isUpdateEach": true
+            var c1 = p2.CountL2Cache(); //"span": "0:0:3"，并且"isUpdateEach": true
             Assert.True(p2.AddPersonL2NotClearCache() > 0);
             var c2 = p2.CountL2Cache();
             Assert.True(c1 > 0);
@@ -281,7 +290,7 @@ namespace EFCoreExtend.Test
             Assert.True(list1?.Count != list3?.Count);
 
             // "tableCacheTypes": { //需要进行缓存清理的类型(key为TableName，value为CacheType，一般用于清理 其他表下 的CacheType)
-            //     "Address": "query"}
+            //     "Address": [ "query" ]}
             var c1 = p2.UpdatePersonL2Cache2(); //要有处理的数据才会触发清理缓存策略，因此上面要调用AddPersonL2Cache
             var list5 = a1.GetAddrListCache();
             Assert.True(list1?.Count != list5?.Count);

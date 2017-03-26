@@ -19,7 +19,17 @@ namespace EFCoreExtend.EFCache.Default
             get { return _expiryDate; }
             set
             {
-                _expiryDate = value;
+                if (value != null && value.Value.Kind == DateTimeKind.Unspecified)
+                {
+                    //如果没有指定类型的，那么设置为本地时间
+                    _expiryDate = new DateTime(value.Value.Year, value.Value.Month, value.Value.Day,
+                        value.Value.Hour, value.Value.Minute, value.Value.Second, value.Value.Millisecond, DateTimeKind.Local);
+                }
+                else
+                {
+                    _expiryDate = value;
+                }
+
                 if (value != null)
                 {
                     _type = QueryCacheExpiryPolicyType.ExpiryDate; 

@@ -19,7 +19,7 @@ namespace EFCoreExtend
         /// </summary>
         /// <param name="policy"></param>
         /// <returns></returns>
-        public static IReadOnlyDictionary<string, ISqlConfigPolicy> ToPolicies(this ISqlConfigPolicy policy)
+        public static IDictionary<string, ISqlConfigPolicy> ToPolicies(this ISqlConfigPolicy policy)
         {
             return policy == null ? null :
                     new Dictionary<string, ISqlConfigPolicy>()
@@ -33,9 +33,9 @@ namespace EFCoreExtend
         /// </summary>
         /// <param name="policies"></param>
         /// <returns></returns>
-        public static IReadOnlyDictionary<string, ISqlConfigPolicy> ToPolicies(this IReadOnlyCollection<ISqlConfigPolicy> policies)
+        public static IDictionary<string, ISqlConfigPolicy> ToPolicies(this IEnumerable<ISqlConfigPolicy> policies)
         {
-            if(policies?.Count > 0)
+            if(policies.HasValueE())
             {
                 var dict = new Dictionary<string, ISqlConfigPolicy>();
                 foreach (var l in policies)
@@ -62,8 +62,8 @@ namespace EFCoreExtend
         /// <param name="cachePolicy">缓存策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseDict<T>(this ISqlConfigExecutor configExecutor,
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyCollection<string> ignoreProptsForRtnType = null, SqlL2QueryCachePolicy cachePolicy = null)
+            IDictionary<string, object> parameters,
+            IEnumerable<string> ignoreProptsForRtnType = null, SqlL2QueryCachePolicy cachePolicy = null)
             where T : new()
         {
             return configExecutor.Query<T>(EFHelper.Services.SqlParamConverter.DictionaryToDBParams(configExecutor.DB, parameters),
@@ -80,9 +80,9 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseDict<T>(this ISqlConfigExecutor configExecutor,
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyCollection<string> ignoreProptsForRtnType,
-            IReadOnlyCollection<ISqlConfigPolicy> policies)
+            IDictionary<string, object> parameters,
+            IEnumerable<string> ignoreProptsForRtnType,
+            IEnumerable<ISqlConfigPolicy> policies)
             where T : new()
         {
             return configExecutor.Query<T>(
@@ -100,9 +100,9 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseDict<T>(this ISqlConfigExecutor configExecutor,
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyCollection<string> ignoreProptsForRtnType,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies)
+            IDictionary<string, object> parameters,
+            IEnumerable<string> ignoreProptsForRtnType,
+            IDictionary<string, ISqlConfigPolicy> policies)
             where T : new()
         {
             return configExecutor.Query<T>(
@@ -121,8 +121,8 @@ namespace EFCoreExtend
         /// <param name="cachePolicy">缓存策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseModel<T>(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<string> ignoreProptsForRtnType, SqlL2QueryCachePolicy cachePolicy = null)
+            IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForRtnType, SqlL2QueryCachePolicy cachePolicy = null)
             where T : new()
         {
             return configExecutor.Query<T>(
@@ -140,7 +140,7 @@ namespace EFCoreExtend
         /// <param name="ignoreProptsForRtnType">数据类型需要忽略的属性名</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseModel<T>(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel = null,
+            IEnumerable<string> ignoreProptsForParamModel = null,
             params string[] ignoreProptsForRtnType)
             where T : new()
         {
@@ -160,9 +160,9 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseModel<T>(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<string> ignoreProptsForRtnType, 
-            IReadOnlyCollection<ISqlConfigPolicy> policies)
+            IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForRtnType, 
+            IEnumerable<ISqlConfigPolicy> policies)
             where T : new()
         {
             return configExecutor.Query<T>(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
@@ -180,9 +180,9 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static IReadOnlyList<T> QueryUseModel<T>(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<string> ignoreProptsForRtnType,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies)
+            IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForRtnType,
+            IDictionary<string, ISqlConfigPolicy> policies)
             where T : new()
         {
             return configExecutor.Query<T>(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
@@ -199,8 +199,8 @@ namespace EFCoreExtend
         /// <param name="parameters">sql的参数</param>
         /// <param name="cachePolicy">缓存策略</param>
         /// <returns></returns>
-        public static object ScalarUseDict(this ISqlConfigExecutor configExecutor, 
-            IReadOnlyDictionary<string, object> parameters,
+        public static object ScalarUseDict(this ISqlConfigExecutor configExecutor,
+            IDictionary<string, object> parameters,
             SqlL2QueryCachePolicy cachePolicy = null)
         {
             return configExecutor.Scalar(EFHelper.Services.SqlParamConverter.DictionaryToDBParams(configExecutor.DB, parameters),
@@ -215,8 +215,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static object ScalarUseDict(this ISqlConfigExecutor configExecutor,
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyCollection<ISqlConfigPolicy> policies)
+            IDictionary<string, object> parameters,
+            IEnumerable<ISqlConfigPolicy> policies)
         {
             return configExecutor.Scalar(EFHelper.Services.SqlParamConverter.DictionaryToDBParams(configExecutor.DB, parameters),
                 ToPolicies(policies));
@@ -230,8 +230,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static object ScalarUseDict(this ISqlConfigExecutor configExecutor,
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies)
+            IDictionary<string, object> parameters,
+            IDictionary<string, ISqlConfigPolicy> policies)
         {
             return configExecutor.Scalar(EFHelper.Services.SqlParamConverter.DictionaryToDBParams(configExecutor.DB, parameters),
                 policies);
@@ -246,7 +246,7 @@ namespace EFCoreExtend
         /// <param name="cachePolicy">缓存策略</param>
         /// <returns></returns>
         public static object ScalarUseModel(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForParamModel,
             SqlL2QueryCachePolicy cachePolicy = null)
         {
             return configExecutor.Scalar(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
@@ -277,8 +277,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static object ScalarUseModel(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<ISqlConfigPolicy> policies)
+            IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<ISqlConfigPolicy> policies)
         {
             return configExecutor.Scalar(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
                 ignoreProptsForParamModel), ToPolicies(policies));
@@ -293,8 +293,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static object ScalarUseModel(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies)
+            IEnumerable<string> ignoreProptsForParamModel,
+            IDictionary<string, ISqlConfigPolicy> policies)
         {
             return configExecutor.Scalar(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
                 ignoreProptsForParamModel), policies);
@@ -310,8 +310,8 @@ namespace EFCoreExtend
         /// <param name="parameters">sql的参数</param>
         /// <param name="clearPolicy">缓存清理策略</param>
         /// <returns></returns>
-        public static int NonQueryUseDict(this ISqlConfigExecutor configExecutor, 
-            IReadOnlyDictionary<string, object> parameters,
+        public static int NonQueryUseDict(this ISqlConfigExecutor configExecutor,
+            IDictionary<string, object> parameters,
             SqlClearCachePolicy clearPolicy = null)
         {
             return configExecutor.NonQuery(EFHelper.Services.SqlParamConverter.DictionaryToDBParams(configExecutor.DB, parameters),
@@ -326,8 +326,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static int NonQueryUseDict(this ISqlConfigExecutor configExecutor,
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyCollection<ISqlConfigPolicy> policies)
+            IDictionary<string, object> parameters,
+            IEnumerable<ISqlConfigPolicy> policies)
         {
             return configExecutor.NonQuery(EFHelper.Services.SqlParamConverter.DictionaryToDBParams(configExecutor.DB, parameters),
                 ToPolicies(policies));
@@ -341,8 +341,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static int NonQueryUseDict(this ISqlConfigExecutor configExecutor,
-            IReadOnlyDictionary<string, object> parameters,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies)
+            IDictionary<string, object> parameters,
+            IDictionary<string, ISqlConfigPolicy> policies)
         {
             return configExecutor.NonQuery(EFHelper.Services.SqlParamConverter.DictionaryToDBParams(configExecutor.DB, parameters),
                 policies);
@@ -357,7 +357,7 @@ namespace EFCoreExtend
         /// <param name="clearPolicy">缓存清理策略</param>
         /// <returns></returns>
         public static int NonQueryUseModel(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
+            IEnumerable<string> ignoreProptsForParamModel,
             SqlClearCachePolicy clearPolicy = null)
         {
             return configExecutor.NonQuery(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
@@ -387,8 +387,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static int NonQueryUseModel(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyCollection<ISqlConfigPolicy> policies)
+            IEnumerable<string> ignoreProptsForParamModel,
+            IEnumerable<ISqlConfigPolicy> policies)
         {
             return configExecutor.NonQuery(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
                 ignoreProptsForParamModel), ToPolicies(policies));
@@ -403,8 +403,8 @@ namespace EFCoreExtend
         /// <param name="policies">策略</param>
         /// <returns></returns>
         public static int NonQueryUseModel(this ISqlConfigExecutor configExecutor, object paramsModel,
-            IReadOnlyCollection<string> ignoreProptsForParamModel,
-            IReadOnlyDictionary<string, ISqlConfigPolicy> policies)
+            IEnumerable<string> ignoreProptsForParamModel,
+            IDictionary<string, ISqlConfigPolicy> policies)
         {
             return configExecutor.NonQuery(EFHelper.Services.SqlParamConverter.ObjectToDBParams(configExecutor.DB, paramsModel,
                 ignoreProptsForParamModel), policies);

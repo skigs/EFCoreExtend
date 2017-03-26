@@ -7,7 +7,8 @@ namespace EFCoreExtend.EFCache.BaseCache.Default
 {
     public abstract class QueryCacheBase : IQueryCache
     {
-        public TRtn Cache<TRtn>(string cacheType, string cacheKey, Func<TRtn> toDBGet, IQueryCacheExpiryPolicy expiryPolicy)
+        public TRtn Cache<TRtn>(string cacheType, string cacheKey, Func<TRtn> toDBGet, 
+            IQueryCacheExpiryPolicy expiryPolicy, Type rtnType = null)
         {
             cacheKey.CheckStringIsNullOrEmpty(nameof(cacheKey));
             cacheType.CheckStringIsNullOrEmpty(nameof(cacheType));
@@ -18,18 +19,18 @@ namespace EFCoreExtend.EFCache.BaseCache.Default
 
             if (expiryPolicy == null)
             {
-                bRtn = TryGetCache(cacheType, cacheKey, out rtn);
+                bRtn = TryGetCache(cacheType, cacheKey, out rtn, rtnType);
             }
             else
             {
                 var expiryTime = expiryPolicy.GetExpiryTime();
                 if (expiryPolicy.IsUpdateEach && expiryTime.HasValue)
                 {
-                    bRtn = TryGetCacheAndUpdateCacheTime(cacheType, cacheKey, expiryTime.Value, out rtn);
+                    bRtn = TryGetCacheAndUpdateCacheTime(cacheType, cacheKey, expiryTime.Value, out rtn, rtnType);
                 }
                 else
                 {
-                    bRtn = TryGetCache(cacheType, cacheKey, out rtn);
+                    bRtn = TryGetCache(cacheType, cacheKey, out rtn, rtnType);
                 }
             }
 
@@ -38,18 +39,18 @@ namespace EFCoreExtend.EFCache.BaseCache.Default
                 rtn = toDBGet();
                 if (expiryPolicy == null)
                 {
-                    SetCache(cacheType, cacheKey, rtn);
+                    SetCache(cacheType, cacheKey, rtn, rtnType);
                 }
                 else
                 {
                     var expiryTime = expiryPolicy.GetExpiryTime();
                     if (expiryTime.HasValue)
                     {
-                        SetCache(cacheType, cacheKey, rtn, expiryTime.Value);
+                        SetCache(cacheType, cacheKey, rtn, expiryTime.Value, rtnType);
                     }
                     else
                     {
-                        SetCache(cacheType, cacheKey, rtn);
+                        SetCache(cacheType, cacheKey, rtn, rtnType);
                     }
                 }
             }
@@ -58,11 +59,11 @@ namespace EFCoreExtend.EFCache.BaseCache.Default
         }
 
         #region abstract
-        protected abstract bool TryGetCache<TRtn>(string cacheType, string cacheKey, out TRtn rtn);
-        protected abstract bool TryGetCacheAndUpdateCacheTime<TRtn>(string cacheType, string cacheKey, DateTime expiry, out TRtn rtn);
+        protected abstract bool TryGetCache<TRtn>(string cacheType, string cacheKey, out TRtn rtn, Type rtnType = null);
+        protected abstract bool TryGetCacheAndUpdateCacheTime<TRtn>(string cacheType, string cacheKey, DateTime expiry, out TRtn rtn, Type rtnType = null);
 
-        protected abstract void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel);
-        protected abstract void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel, DateTime expiry);
+        protected abstract void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel, Type rtnType = null);
+        protected abstract void SetCache<TM>(string cacheType, string cacheKey, TM cacheModel, DateTime expiry, Type rtnType = null);
 
         public abstract void Remove(string cacheType, string cacheKey);
 

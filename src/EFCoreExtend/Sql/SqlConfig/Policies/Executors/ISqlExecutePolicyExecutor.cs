@@ -10,9 +10,8 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors
     /// <summary>
     /// 用于sql执行时的策略执行器（例如：查询缓存（一级/二级的），查询缓存清理（NonQuery的执行之后对二级缓存的清理）等等）
     /// </summary>
-    public interface ISqlExecutePolicyExecutor
+    public interface ISqlExecutePolicyExecutor : ISqlPolicyExecutor<ISqlExecutePolicyExecutorInfo>
     {
-        void Execute(ISqlExecutePolicyExecutorInfo info);
     }
 
     public interface ISqlExecutePolicyExecutorInfo : IPolicyExecutorInfoBase
@@ -61,6 +60,10 @@ namespace EFCoreExtend.Sql.SqlConfig.Policies.Executors
         /// sql执行的返回值，可修改（这些数据可以是缓存数据，也可以是数据库中返回的结果）
         /// </summary>
         object ReturnValue { get; set; }
+        /// <summary>
+        /// sql执行的返回值类型
+        /// </summary>
+        Type ReturnType { get; }
         /// <summary>
         /// 是否结束执行(例如缓存获取成功之后，不需要再进行执行sql了，那么设置为true，否则不要设置，不然sql无法执行了)，可修改
         /// </summary>

@@ -75,6 +75,24 @@ namespace EFCoreExtend.Redis.EFCache.Helper
             return false;
         }
 
+        public static bool TryGet(this IRedisDBConnect redis, string key, Type rtnType, out object val)
+        {
+            val = null;
+            string strVal;
+            if (TryGet(redis, key, out strVal))
+            {
+                try
+                {
+                    val = JsonConvert.DeserializeObject(strVal, rtnType);
+                    return true;
+                }
+                catch
+                {
+                }
+            }
+            return false;
+        }
+
         public static bool TryGet(this IRedisDBConnect redis, string key, TimeSpan? expiry, out string val)
         {
             val = null;
@@ -130,6 +148,25 @@ namespace EFCoreExtend.Redis.EFCache.Helper
                 try
                 {
                     val = JsonConvert.DeserializeObject<T>(strVal);
+                    return true;
+                }
+                catch
+                {
+                }
+            }
+            return false;
+        }
+
+        public static bool TryGet(this IRedisDBConnect redis, string key, DateTime? expiry, Type rtnType, out object val)
+        {
+            //rtnType: 缓存数据类型(对于反序列化成对象(JSON => Type)时有用，TRtn可能为object，但是可以传递Type进行反序列化成对象)
+            val = null;
+            string strVal;
+            if (TryGet(redis, key, expiry, out strVal))
+            {
+                try
+                {
+                    val = JsonConvert.DeserializeObject(strVal, rtnType);
                     return true;
                 }
                 catch

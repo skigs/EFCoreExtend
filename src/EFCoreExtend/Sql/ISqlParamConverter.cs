@@ -10,11 +10,12 @@ namespace EFCoreExtend.Sql
     public interface ISqlParamConverter
     {
         /// <summary>
-        /// 将Dictionary<string, object> => IDataParameter[] (SqlParameters)
+        /// 将Dictionary => IDataParameter[] ( SqlParameters)
         /// </summary>
         /// <param name="db"></param>
         /// <param name="dictParams"></param>
+        /// <param name="paramsCount">Params的个数</param>
         /// <returns></returns>
-        IDataParameter[] DictionaryToDBParams(DbContext db, IReadOnlyDictionary<string, object> dictParams);
+        IDataParameter[] DictionaryToDBParams(DbContext db, IEnumerable<KeyValuePair<string, object>> dictParams, int? paramsCount);
     }
 }
