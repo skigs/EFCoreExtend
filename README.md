@@ -65,43 +65,43 @@ var val = db.QueryCacheUseModel&lt;Person, Person&gt;(
 
 clear cache
 <pre><code>
-	//clear cache for sql (table: Person, cache type: query)
-	db.QueryCacheRemoveUseModel&lt;Person&gt;("select * from {nameof(Person)} where name=@name", new { name = name }, null);
-	//clears the cache for the specified type：query (table: Person)
-	EFHelper.Services.Cache.QueryRemove&lt;Person&gt;();
-	//clears the cache for the specified table: Person
-	EFHelper.Services.Cache.Remove&lt;Person&gt;();
+//clear cache for sql (table: Person, cache type: query)
+db.QueryCacheRemoveUseModel&lt;Person&gt;("select * from {nameof(Person)} where name=@name", new { name = name }, null);
+//clears the cache for the specified type：query (table: Person)
+EFHelper.Services.Cache.QueryRemove&lt;Person&gt;();
+//clears the cache for the specified table: Person
+EFHelper.Services.Cache.Remove&lt;Person&gt;();
 </code></pre>
 
 <h5>IQueryable(linq) cache</h5>
 <pre><code>
-	DbContext db = new MSSqlDBContext();
-	var person = db.Set&lt;Person&gt;();
-	//ListCache(FirstOrDefaultCache / CountCache / LongCountCache / Cache(others))
-	// parameter 1: table name
-	// parameter 2: expiry time(Here is set to not expired)
-	IReadOnlyList&lt;Person&gt; list = person.Where(l =&gt; l.name == "tom1").ListCache(nameof(Person), null);
-	//Same as above
-	var list0 = person.Where(l =&gt; l.name == "tom1").ListCache&lt;Person, Person&gt;(null);
+DbContext db = new MSSqlDBContext();
+var person = db.Set&lt;Person&gt;();
+//ListCache(FirstOrDefaultCache / CountCache / LongCountCache / Cache(others))
+// parameter 1: table name
+// parameter 2: expiry time(Here is set to not expired)
+IReadOnlyList&lt;Person&gt; list = person.Where(l =&gt; l.name == "tom1").ListCache(nameof(Person), null);
+//Same as above
+var list0 = person.Where(l =&gt; l.name == "tom1").ListCache&lt;Person, Person&gt;(null);
 
-	//set cache expiry
-	var list1 = person.Where(l =&gt; l.name == "tom2")
-	.ListCache(nameof(Person), new QueryCacheExpiryPolicy(TimeSpan.FromMinutes(15)));  //15min
-	//Same as above
-	var list11 = person.Where(l =&gt; l.name == "tom2")
-	.ListCache&lt;Person, Person&gt;(TimeSpan.FromMinutes(15));  //15min
-	var list2 = person.Where(l =&gt; l.name == "tom3")
-	.ListCache&lt;Person, Person&gt;(DateTime.Parse("2018-1-1"));  //DateTime
+//set cache expiry
+var list1 = person.Where(l =&gt; l.name == "tom2")
+.ListCache(nameof(Person), new QueryCacheExpiryPolicy(TimeSpan.FromMinutes(15)));  //15min
+//Same as above
+var list11 = person.Where(l =&gt; l.name == "tom2")
+.ListCache&gt;Person, Person&gt;(TimeSpan.FromMinutes(15));  //15min
+var list2 = person.Where(l =&gt; l.name == "tom3")
+.ListCache&gt;Person, Person&gt;(DateTime.Parse("2018-1-1"));  //DateTime
 </code></pre>
 
 clear cache
 <pre><code>
-	//clear cache for IQueryable (table: Person, cache type: List)
-	person.Where(l =&gt; l.name == "tom1").ListCacheRemove&lt;Person&gt;();
-	//clears the cache for the specified type：List (table: Person)
-	EFHelper.Services.Cache.ListRemove&lt;Person&gt;();
-	//clears the cache for the specified table: Person
-	EFHelper.Services.Cache.Remove&lt;Person&gt;();
+//clear cache for IQueryable (table: Person, cache type: List)
+person.Where(l =&gt; l.name == "tom1").ListCacheRemove&lt;Person&gt;();
+//clears the cache for the specified type：List (table: Person)
+EFHelper.Services.Cache.ListRemove&lt;Person&gt;();
+//clears the cache for the specified table: Person
+EFHelper.Services.Cache.Remove&lt;Person&gt;();
 </code></pre>
 
 <br/>
@@ -131,7 +131,6 @@ cfg.table("Person", function(tb)
 	tb.sqls.Delete = function ()
 		return "delete from Person where name=@name"
 	end
-
 end);
 </code></pre>
 
