@@ -5,6 +5,8 @@ Entity Framework Core extension library
 <pre><code>PM&gt; Install-Package EFCoreExtend</code></pre>
 QueryCache use Redis
 <pre><code>PM&gt; Install-Package EFCoreExtend.Redis</code></pre>
+Lua Extend:
+<pre><code>PM&gt; Install-Package EFCoreExtend.Lua</code></pre>
 
 blog：http://www.cnblogs.com/skig/p/EFCoreExtend.html
 </br>
@@ -86,12 +88,12 @@ var list0 = person.Where(l =&gt; l.name == "tom1").ListCache&lt;Person, Person&g
 
 //set cache expiry
 var list1 = person.Where(l =&gt; l.name == "tom2")
-.ListCache(nameof(Person), new QueryCacheExpiryPolicy(TimeSpan.FromMinutes(15)));  //15min
+  .ListCache(nameof(Person), new QueryCacheExpiryPolicy(TimeSpan.FromMinutes(15)));  //15min
 //Same as above
 var list11 = person.Where(l =&gt; l.name == "tom2")
-.ListCache&gt;Person, Person&gt;(TimeSpan.FromMinutes(15));  //15min
+  .ListCache&gt;Person, Person&gt;(TimeSpan.FromMinutes(15));  //15min
 var list2 = person.Where(l =&gt; l.name == "tom3")
-.ListCache&gt;Person, Person&gt;(DateTime.Parse("2018-1-1"));  //DateTime
+  .ListCache&gt;Person, Person&gt;(DateTime.Parse("2018-1-1"));  //DateTime
 </code></pre>
 
 clear cache
